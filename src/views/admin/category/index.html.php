@@ -26,15 +26,53 @@
     <div class="container-fluid">
         <!-- /.row -->
         <div class="row">
-            <div class="col-12">
+            <div class="col-lg-4">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Tạo thể loại</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <!-- form start -->
+                    <form>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="title">Tiêu đề *</label>
+                                <input type="text" class="form-control" id="title"
+                                       placeholder="Nhập tiêu đề">
+                            </div>
+                            <div class="form-group">
+                                <label for="meta_title">Meta</label>
+                                <input type="text" class="form-control" id="meta_title"
+                                       placeholder="Nhập meta cho tiêu đề">
+                            </div>
+                            <div class="form-group">
+                                <label for="slug">Slug</label>
+                                <input type="text" class="form-control" id="slug"
+                                       placeholder="Slug">
+                            </div>
+                            <div class="form-group">
+                                <label for="content">Mô tả</label>
+                                <textarea id="content" class="form-control" rows="3" placeholder="Mô tả ..."></textarea>
+                            </div>
+
+                        </div>
+                        <!-- /.card-body -->
+
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">Tạo mới</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="col-lg-8">
                 <div class="card">
                     <div class="card-header">
-                        <h3 class="card-title">Responsive Hover Table</h3>
+                        <h3 class="card-title">Danh sách thể loại trên hệ thống</h3>
 
                         <div class="card-tools">
                             <div class="input-group input-group-sm" style="width: 150px;">
-                                <input type="text" name="table_search" class="form-control float-right"
-                                       placeholder="Search">
+                                <input type="text" id="search" name="table_search" class="form-control float-right"
+                                       placeholder="Tìm kiếm nhanh">
 
                                 <div class="input-group-append">
                                     <button type="submit" class="btn btn-default">
@@ -50,10 +88,10 @@
                             <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>User</th>
-                                <th>Date</th>
-                                <th>Status</th>
-                                <th>Reason</th>
+                                <th>Tiêu đề</th>
+                                <th>Mô tả</th>
+                                <th>Số bài viết</th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody>
@@ -61,29 +99,13 @@
                                 <td>183</td>
                                 <td>John Doe</td>
                                 <td>11-7-2014</td>
-                                <td><span class="tag tag-success">Approved</span></td>
-                                <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                            </tr>
-                            <tr>
-                                <td>219</td>
-                                <td>Alexander Pierce</td>
-                                <td>11-7-2014</td>
-                                <td><span class="tag tag-warning">Pending</span></td>
-                                <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                            </tr>
-                            <tr>
-                                <td>657</td>
-                                <td>Bob Doe</td>
-                                <td>11-7-2014</td>
-                                <td><span class="tag tag-primary">Approved</span></td>
-                                <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
-                            </tr>
-                            <tr>
-                                <td>175</td>
-                                <td>Mike Doe</td>
-                                <td>11-7-2014</td>
-                                <td><span class="tag tag-danger">Denied</span></td>
-                                <td>Bacon ipsum dolor sit amet salami venison chicken flank fatback doner.</td>
+                                <td>1</td>
+                                <td class="text-right py-0 align-middle">
+                                    <div class="btn-group btn-group-sm">
+                                        <a href="#" class="btn btn-info mr-2"><i class="fas fa-eye"></i></a>
+                                        <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                    </div>
+                                </td>
                             </tr>
                             </tbody>
                         </table>
@@ -99,12 +121,3 @@
 <!-- /.content -->
 {% endblock %}
 
-{% block custom_scripts %}
-
-<!-- AdminLTE for demo purposes -->
-<script src="/static/admin-lte/dist/js/demo.js"></script>
-
-<!-- AdminLTE dashboard demo (This is only for demo purposes) -->
-<script src="/static/admin-lte/dist/js/pages/dashboard.js"></script>
-
-{% endblock %}
