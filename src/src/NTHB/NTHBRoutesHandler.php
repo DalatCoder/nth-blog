@@ -2,14 +2,26 @@
 
 namespace NTHB;
 
+use Ninja\DatabaseTable;
 use Ninja\NJInterface\IRoutes;
 use NTHB\Controller\Admin\AdminCategoryController;
 use NTHB\Controller\Admin\AdminDashboardController;
+use NTHB\Entity\CategoryEntity;
+use NTHB\Model\Admin\CategoryModel;
 
 class NTHBRoutesHandler implements IRoutes
 {
+    private $admin_category_table_helper;
+    private $admin_category_model;
+    
     public function __construct()
     {
+        $this->admin_category_table_helper = new DatabaseTable(
+            CategoryEntity::TABLE,
+            CategoryEntity::PRIMARY_KEY,
+            CategoryEntity::CLASS_NAME
+        );
+        $this->admin_category_model = new CategoryModel($this->admin_category_table_helper);
     }
 
     public function getRoutes(): array
@@ -47,7 +59,7 @@ class NTHBRoutesHandler implements IRoutes
 
     public function get_admin_category_routes(): array
     {
-        $controller = new AdminCategoryController();
+        $controller = new AdminCategoryController($this->admin_category_model);
 
         return [
             '/admin/category' => [

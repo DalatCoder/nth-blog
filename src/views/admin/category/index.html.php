@@ -95,10 +95,11 @@
                             </tr>
                             </thead>
                             <tbody>
+                            <?php foreach ($categories as $category): ?>
                             <tr>
-                                <td>183</td>
-                                <td>John Doe</td>
-                                <td>11-7-2014</td>
+                                <td><?= $category->{\NTHB\Entity\CategoryEntity::KEY_ID} ?></td>
+                                <td><?= $category->{\NTHB\Entity\CategoryEntity::KEY_TITLE} ?></td>
+                                <td><?= $category->{\NTHB\Entity\CategoryEntity::KEY_CONTENT} ?></td>
                                 <td>1</td>
                                 <td class="text-right py-0 align-middle">
                                     <div class="btn-group btn-group-sm">
@@ -107,6 +108,7 @@
                                     </div>
                                 </td>
                             </tr>
+                            <?php endforeach; ?>
                             </tbody>
                         </table>
                     </div>
