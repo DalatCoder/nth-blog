@@ -118,7 +118,7 @@
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                     data-accordion="false">
                     <li class="nav-item">
-                        <a href="/admin/dashboard" class="nav-link">
+                        <a href="/admin/dashboard" class="nav-link <?= "/admin/dashboard" == $route ? 'active' : '' ?>">
                             <i class="nav-icon fas fa-th"></i>
                             <p>
                                 Tổng quan
@@ -127,7 +127,7 @@
                         </a>
                     </li>
                     <li class="nav-item menu-open">
-                        <a href="#" class="nav-link active">
+                        <a href="#" class="nav-link">
                             <i class="nav-icon fas fa-tachometer-alt"></i>
                             <p>
                                 Bài viết
@@ -136,13 +136,13 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="#" class="nav-link active">
+                                <a href="#" class="nav-link">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Tất cả</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/admin/category" class="nav-link">
+                                <a href="/admin/category" class="nav-link <?= "/admin/category" == $route ? 'active' : '' ?>">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Thể loại</p>
                                 </a>
