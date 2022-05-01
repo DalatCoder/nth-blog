@@ -3,6 +3,7 @@
 namespace NTHB;
 
 use Ninja\NJInterface\IRoutes;
+use NTHB\Controller\Admin\AdminCategoryController;
 use NTHB\Controller\Admin\AdminDashboardController;
 
 class NTHBRoutesHandler implements IRoutes
@@ -22,8 +23,9 @@ class NTHBRoutesHandler implements IRoutes
     public function get_all_controller_routes(): array
     {
         $admin_dashboard_routes = $this->get_admin_dashboard_routes();
+        $admin_category_routes = $this->get_admin_category_routes();
         
-        return $admin_dashboard_routes;
+        return $admin_dashboard_routes + $admin_category_routes;
     }
     
     public function get_admin_dashboard_routes(): array
@@ -35,6 +37,20 @@ class NTHBRoutesHandler implements IRoutes
                 'REDIRECT' => '/admin/dashboard'
             ],
             '/admin/dashboard' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'index'
+                ]
+            ]
+        ];
+    }
+
+    public function get_admin_category_routes(): array
+    {
+        $controller = new AdminCategoryController();
+
+        return [
+            '/admin/category' => [
                 'GET' => [
                     'controller' => $controller,
                     'action' => 'index'
