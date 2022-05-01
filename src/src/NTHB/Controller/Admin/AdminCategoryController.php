@@ -11,6 +11,7 @@ class AdminCategoryController extends NTHBBaseController
     
     public function __construct(CategoryModel $category_model)
     {
+        parent::__construct();
         $this->category_model = $category_model;
     }
 
