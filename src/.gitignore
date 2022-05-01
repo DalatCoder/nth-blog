@@ -1,0 +1,4 @@
+.idea/
+.vscode/
+ninja-config.json
+public_html/uploads/*.png

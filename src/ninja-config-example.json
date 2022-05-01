@@ -1,0 +1,10 @@
+{
+    "website_name": "NTH Blog",
+    "db_name": "nth-blog",
+    "db_host": "localhost",
+    "db_charset": "utf8",
+    "db_username": "root",
+    "db_password": "",
+    "view_folder": "views",
+    "home_path": "/"
+}

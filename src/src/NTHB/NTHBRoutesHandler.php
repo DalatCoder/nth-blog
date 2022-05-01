@@ -1,0 +1,60 @@
+<?php
+
+namespace NTHB;
+
+use Ninja\NJInterface\IRoutes;
+use NTHB\Controller\Admin\AdminDashboardController;
+
+class NTHBRoutesHandler implements IRoutes
+{
+    public function __construct()
+    {
+    }
+
+    public function getRoutes(): array
+    {
+        $controller_routes = $this->get_all_controller_routes();
+        $api_routes = $this->get_all_api_routes();
+
+        return $controller_routes + $api_routes;
+    }
+
+    public function get_all_controller_routes(): array
+    {
+        $admin_dashboard_routes = $this->get_admin_dashboard_routes();
+        
+        return $admin_dashboard_routes;
+    }
+    
+    public function get_admin_dashboard_routes(): array
+    {
+        $controller = new AdminDashboardController();
+        
+        return [
+            '/admin' => [
+                'REDIRECT' => '/admin/dashboard'
+            ],
+            '/admin/dashboard' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'index'
+                ]
+            ]
+        ];
+    }
+
+    public function get_all_api_routes(): array
+    {
+        return [];
+    }
+
+    public function getAuthentication(): ?\Ninja\Authentication
+    {
+        return null;
+    }
+
+    public function checkPermission($permission): ?bool
+    {
+        return null;
+    }
+}
