@@ -6,12 +6,12 @@
     <div class="container-fluid">
         <div class="row mb-2">
             <div class="col-sm-6">
-                <h1 class="m-0">Dashboard</h1>
+                <h1 class="m-0">Tổng quan</h1>
             </div><!-- /.col -->
             <div class="col-sm-6">
                 <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Dashboard v1</li>
+                    <li class="breadcrumb-item"><a href="/admin">Trang quản trị</a></li>
+                    <li class="breadcrumb-item active">Tổng quan</li>
                 </ol>
             </div><!-- /.col -->
         </div><!-- /.row -->
@@ -32,12 +32,12 @@
                     <div class="inner">
                         <h3>150</h3>
 
-                        <p>New Orders</p>
+                        <p>Đơn hàng mới</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-bag"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="#" class="small-box-footer">Xem chi tiết <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -47,12 +47,12 @@
                     <div class="inner">
                         <h3>53<sup style="font-size: 20px">%</sup></h3>
 
-                        <p>Bounce Rate</p>
+                        <p>Tỉ lệ tăng trưởng</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-stats-bars"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="#" class="small-box-footer">Xem chi tiết <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -62,12 +62,12 @@
                     <div class="inner">
                         <h3>44</h3>
 
-                        <p>User Registrations</p>
+                        <p>Người dùng đăng ký</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-person-add"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="#" class="small-box-footer">Xem chi tiết <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -77,12 +77,12 @@
                     <div class="inner">
                         <h3>65</h3>
 
-                        <p>Unique Visitors</p>
+                        <p>Khách viếng thăm</p>
                     </div>
                     <div class="icon">
                         <i class="ion ion-pie-graph"></i>
                     </div>
-                    <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+                    <a href="#" class="small-box-footer">Xem chi tiết <i class="fas fa-arrow-circle-right"></i></a>
                 </div>
             </div>
             <!-- ./col -->
@@ -97,7 +97,7 @@
                     <div class="card-header">
                         <h3 class="card-title">
                             <i class="fas fa-chart-pie mr-1"></i>
-                            Sales
+                            Buôn bán
                         </h3>
                         <div class="card-tools">
                             <ul class="nav nav-pills ml-auto">
@@ -128,7 +128,7 @@
                 <!-- DIRECT CHAT -->
                 <div class="card direct-chat direct-chat-primary">
                     <div class="card-header">
-                        <h3 class="card-title">Direct Chat</h3>
+                        <h3 class="card-title">Cửa sổ trò chuyện</h3>
 
                         <div class="card-tools">
                             <span title="3 New Messages" class="badge badge-primary">3</span>
@@ -332,7 +332,7 @@
                     <div class="card-header">
                         <h3 class="card-title">
                             <i class="ion ion-clipboard mr-1"></i>
-                            To Do List
+                            Việc cần làm
                         </h3>
 
                         <div class="card-tools">
@@ -467,7 +467,7 @@
                     <div class="card-header border-0">
                         <h3 class="card-title">
                             <i class="fas fa-map-marker-alt mr-1"></i>
-                            Visitors
+                            Khách hàng
                         </h3>
                         <!-- card tools -->
                         <div class="card-tools">
@@ -512,7 +512,7 @@
                     <div class="card-header border-0">
                         <h3 class="card-title">
                             <i class="fas fa-th mr-1"></i>
-                            Sales Graph
+                            Biểu đồ kinh doanh
                         </h3>
 
                         <div class="card-tools">
@@ -564,7 +564,7 @@
 
                         <h3 class="card-title">
                             <i class="far fa-calendar-alt"></i>
-                            Calendar
+                            Lịch biểu
                         </h3>
                         <!-- tools card -->
                         <div class="card-tools">
