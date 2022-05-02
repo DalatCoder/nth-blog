@@ -18,6 +18,40 @@ class CommentController extends NTHBBaseController
         $this->comment_model = $comment_model;
     }
     
+    public function index()
+    {
+        $comments = $this->comment_model->get_all();
+        
+        $this->view_handler->render('admin/comment/index.html.php', [
+            'page_title' => 'Danh sách bình luận',
+            'comments' => $comments
+        ]);
+    }
+    
+    public function accept_comment()
+    {
+        $id = $_GET['id'] ?? null;
+
+        try {
+            $this->comment_model->accept_comment($id);
+            $this->route_redirect('/admin/comment');
+        } catch (Exception $e) {
+            die($e);
+        }
+    }
+    
+    public function deny_comment()
+    {
+        $id = $_GET['id'] ?? null;
+
+        try {
+            $this->comment_model->deny_comment($id);
+            $this->route_redirect('/admin/comment');
+        } catch (Exception $e) {
+            die($e);
+        }
+    }
+    
     public function store()
     {
         try {

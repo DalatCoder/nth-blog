@@ -277,6 +277,24 @@ class NTHBRoutesHandler implements IRoutes
                     'controller' => $controller,
                     'action' => 'store'
                 ]
+            ],
+            '/admin/comment' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'index'
+                ]
+            ],
+            '/admin/comment/accept' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'accept_comment'
+                ]
+            ],
+            '/admin/comment/deny' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'deny_comment'
+                ]
             ]
         ];
     }

@@ -67,4 +67,26 @@ class CommentModel
             PostComment::KEY_PUBLISHED_AT => $published_at
         ]);
     }
+
+    /**
+     * @throws Exception
+     */
+    public function accept_comment($id)
+    {
+        return $this->comment_table_helper->save([
+            PostComment::KEY_ID => $id,
+            PostComment::KEY_PUBLISHED_AT => (new \DateTime())
+        ], true);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function deny_comment($id)
+    {
+        return $this->comment_table_helper->save([
+            PostComment::KEY_ID => $id,
+            PostComment::KEY_PUBLISHED_AT => null
+        ], true);
+    }
 }
