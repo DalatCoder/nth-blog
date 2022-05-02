@@ -8,10 +8,13 @@ use NTHB\API\CategoryAPI;
 use NTHB\API\TagAPI;
 use NTHB\Controller\Admin\AdminCategoryController;
 use NTHB\Controller\Admin\AdminDashboardController;
+use NTHB\Controller\Admin\AdminPostController;
 use NTHB\Controller\Admin\AdminTagController;
 use NTHB\Entity\CategoryEntity;
+use NTHB\Entity\PostEntity;
 use NTHB\Entity\TagEntity;
 use NTHB\Model\Admin\CategoryModel;
+use NTHB\Model\Admin\PostModel;
 use NTHB\Model\Admin\TagModel;
 
 class NTHBRoutesHandler implements IRoutes
@@ -21,6 +24,9 @@ class NTHBRoutesHandler implements IRoutes
     
     private $admin_tag_table_helper;
     private $admin_tag_model;
+    
+    private $admin_post_table_helper;
+    private $admin_post_model;
     
     public function __construct()
     {
@@ -37,6 +43,13 @@ class NTHBRoutesHandler implements IRoutes
             TagEntity::CLASS_NAME
         );
         $this->admin_tag_model = new TagModel($this->admin_tag_table_helper);
+        
+        $this->admin_post_table_helper = new DatabaseTable(
+            PostEntity::TABLE,
+            PostEntity::PRIMARY_KEY,
+            PostEntity::CLASS_NAME
+        );
+        $this->admin_post_model = new PostModel($this->admin_post_table_helper);
     }
 
     public function getRoutes(): array
@@ -52,8 +65,9 @@ class NTHBRoutesHandler implements IRoutes
         $admin_dashboard_routes = $this->get_admin_dashboard_routes();
         $admin_category_routes = $this->get_admin_category_routes();
         $admin_tag_routes = $this->get_admin_tag_routes();
+        $admin_post_routes = $this->get_admin_post_routes();
         
-        return $admin_dashboard_routes + $admin_category_routes + $admin_tag_routes;
+        return $admin_dashboard_routes + $admin_category_routes + $admin_tag_routes + $admin_post_routes;
     }
     
     public function get_admin_dashboard_routes(): array
@@ -93,6 +107,20 @@ class NTHBRoutesHandler implements IRoutes
 
         return [
             '/admin/tag' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'index'
+                ]
+            ]
+        ];
+    }
+
+    public function get_admin_post_routes(): array
+    {
+        $controller = new AdminPostController($this->admin_post_model);
+
+        return [
+            '/admin/post' => [
                 'GET' => [
                     'controller' => $controller,
                     'action' => 'index'

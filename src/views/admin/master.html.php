@@ -136,9 +136,9 @@
                         </a>
                         <ul class="nav nav-treeview">
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="/admin/post" class="nav-link <?= "/admin/post" == $route ? 'active' : '' ?>">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>Tất cả</p>
+                                    <p>Bài viết</p>
                                 </a>
                             </li>
                             <li class="nav-item">
