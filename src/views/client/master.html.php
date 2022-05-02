@@ -114,6 +114,16 @@
 <script src="/static/avana/js/html5shiv.js" type="text/javascript"></script>
 
 {% yield custom_scripts %}
+
+<script>
+const allImgs = document.querySelectorAll('.container img');    
+
+for (const image of allImgs) {
+    image.style.display = 'block';
+    image.style.marginLeft = 'auto';
+    image.style.marginRight = 'auto';
+}
+</script>
 </body>
 
 </html>
