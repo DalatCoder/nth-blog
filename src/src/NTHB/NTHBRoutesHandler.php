@@ -122,7 +122,8 @@ class NTHBRoutesHandler implements IRoutes
                 &$this->admin_post_category_model,
                 &$this->admin_post_tag_model,
                 &$this->admin_media_model,
-                &$this->admin_user_model
+                &$this->admin_user_model,
+                &$this->admin_comment_model
             ]
         );
         $this->admin_post_model = new PostModel($this->admin_post_table_helper);

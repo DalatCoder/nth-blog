@@ -46,21 +46,24 @@
     <!-- Comments -->
 
     <div class="comments-pan">
-        <h3>3 Comments</h3>
+        <?php if (count($comments) == 0): ?>
+            <h3>Chưa có bình luận nào</h3>
+        <?php else: ?>
+            <h3><?= count($comments) ?> bình luận</h3>
+        <?php endif; ?>
         <ul class="comments-reply">
+            <?php foreach ($comments as $comment): ?>
             <li>
                 <figure>
                     <img src="/static/avana/images/blog-images/image-1.jpg" alt="" class="img-responsive"/>
                 </figure>
                 <section>
-                    <h4>Anna Greenfield <a href="#">Reply</a></h4>
-                    <div class="date-pan">January 26, 2016</div>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed volutpat eu nibh ultricies semper.
-                    Vivamus porta, felis vitae facilisis sodales, felis est iaculis orci, et ornare sem mauris ut
-                    turpis. Pellentesque vitae tortor nec tellus hendrerit aliquam. Donec condimentum leo eu ullamcorper
-                    scelerisque pellentesque urna rhoncus.
+                    <h4><?= $comment->last_name . ' ' . $comment->first_name ?> <a href="#"></a></h4>
+                    <div class="date-pan"><?= $comment->get_created_at()->format('F, d Y - H:i:s') ?></div>
+                    <?= $comment->content ?>
                 </section>
 
+                <!--
                 <ol class="reply-pan">
                     <li>
                         <figure>
@@ -77,21 +80,9 @@
                         </section>
                     </li>
                 </ol>
+                -->
             </li>
-
-            <li>
-                <figure>
-                    <img src="/static/avana/images/blog-images/image-3.jpg" alt="" class="img-responsive"/>
-                </figure>
-                <section>
-                    <h4>Anna Greenfield <a href="#">Reply</a></h4>
-                    <div class="date-pan">January 26, 2016</div>
-                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed volutpat eu nibh ultricies semper.
-                    Vivamus porta, felis vitae facilisis sodales, felis est iaculis orci, et ornare sem mauris ut
-                    turpis. Pellentesque vitae tortor nec tellus hendrerit aliquam. Donec condimentum leo eu ullamcorper
-                    scelerisque pellentesque urna rhoncus.
-                </section>
-            </li>
+            <?php endforeach; ?>
         </ul>
         <div class="commentys-form">
             <h4>Để lại bình luận</h4>

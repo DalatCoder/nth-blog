@@ -40,8 +40,11 @@ class BlogController extends NTHBBaseController
             $this->route_redirect('/blog');
         }
         
+        $comments = $post->fetch_comments();
+        
         $this->view_handler->render('client/blog_detail.html.php', [
-            'post' => $post
+            'post' => $post,
+            'comments' => $comments
         ]);
     }
 }
