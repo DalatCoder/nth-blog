@@ -33,6 +33,11 @@
 <!-- Main content -->
 <section class="content">
     <div class="row">
+        <div class="col-12 mb-3 d-flex justify-content-end">
+            <button class="btn btn-secondary mr-4">Lưu nháp</button>
+            <button class="btn btn-primary">Xuất bản</button>
+        </div>
+        
         <div class="col-lg-8">
             <div class="card card-primary">
                 <div class="card-header">
@@ -63,9 +68,9 @@
             <!-- /.card -->
         </div>
         <div class="col-lg-4">
-            <div class="card card-secondary">
+            <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Xuất bản</h3>
+                    <h3 class="card-title">Thể loại</h3>
 
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -75,20 +80,43 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group">
-                        <label for="inputEstimatedBudget">Estimated budget</label>
-                        <input type="number" id="inputEstimatedBudget" class="form-control">
+                        <label for="categories">Chọn thể loại</label>
+                        <input type="number" id="categories" class="form-control">
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <label for="tags">Tên thể loại</label>
+                        <input type="number" id="tags" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label for="inputSpentBudget">Total amount spent</label>
-                        <input type="number" id="inputSpentBudget" class="form-control">
+                        <input type="submit" value="Thêm thể loại mới" class="btn btn-primary float-right">
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+            
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Gắn thẻ</h3>
+
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="categories">Chọn thẻ</label>
+                        <input type="number" id="categories" class="form-control">
+                    </div>
+                    <hr>
+                    <div class="form-group">
+                        <label for="tags">Tên thẻ</label>
+                        <input type="number" id="tags" class="form-control">
                     </div>
                     <div class="form-group">
-                        <label for="inputEstimatedDuration">Estimated project duration</label>
-                        <input type="number" id="inputEstimatedDuration" class="form-control">
-                    </div>
-                    <div class="form-group">
-                        <a href="#" class="btn btn-secondary">Cancel</a>
-                        <input type="submit" value="Create new Project" class="btn btn-success float-right">
+                        <input type="submit" value="Thêm thẻ mới" class="btn btn-primary float-right">
                     </div>
                 </div>
                 <!-- /.card-body -->
@@ -112,6 +140,32 @@
                     hướng dẫn sử dụng.
                 </div>
             </div>
+        </div>
+        
+        <div class="col-12">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Ảnh bìa</h3>
+
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="form-group">
+                        <label for="cover-image">Ảnh bìa</label>
+                        <input type="number" id="cover-image" class="form-control">
+                    </div>
+                </div>
+                <!-- /.card-body -->
+            </div>
+        </div>
+
+        <div class="col-12 mb-3 d-flex justify-content-end">
+            <button class="btn btn-secondary mr-4">Lưu nháp</button>
+            <button class="btn btn-primary">Xuất bản</button>
         </div>
     </div>
 
