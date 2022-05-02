@@ -24,4 +24,9 @@ class AdminPostController extends NTHBBaseController
             'posts' => $posts
         ]);
     }
+    
+    public function create()
+    {
+        $this->view_handler->render('admin/post/create.html.php');
+    }
 }

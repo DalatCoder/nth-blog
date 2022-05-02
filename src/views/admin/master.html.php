@@ -142,6 +142,12 @@
                                 </a>
                             </li>
                             <li class="nav-item">
+                                <a href="/admin/post/create" class="nav-link <?= "/admin/post/create" == $route ? 'active' : '' ?>">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Thêm bài viết</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
                                 <a href="/admin/category" class="nav-link <?= "/admin/category" == $route ? 'active' : '' ?>">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Thể loại</p>

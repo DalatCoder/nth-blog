@@ -5,15 +5,18 @@ namespace NTHB;
 use Ninja\DatabaseTable;
 use Ninja\NJInterface\IRoutes;
 use NTHB\API\CategoryAPI;
+use NTHB\API\MediaAPI;
 use NTHB\API\TagAPI;
 use NTHB\Controller\Admin\AdminCategoryController;
 use NTHB\Controller\Admin\AdminDashboardController;
 use NTHB\Controller\Admin\AdminPostController;
 use NTHB\Controller\Admin\AdminTagController;
 use NTHB\Entity\CategoryEntity;
+use NTHB\Entity\MediaEntity;
 use NTHB\Entity\PostEntity;
 use NTHB\Entity\TagEntity;
 use NTHB\Model\Admin\CategoryModel;
+use NTHB\Model\Admin\MediaModel;
 use NTHB\Model\Admin\PostModel;
 use NTHB\Model\Admin\TagModel;
 
@@ -27,6 +30,9 @@ class NTHBRoutesHandler implements IRoutes
     
     private $admin_post_table_helper;
     private $admin_post_model;
+    
+    private $admin_media_table_helper;
+    private $admin_media_model;
     
     public function __construct()
     {
@@ -50,6 +56,13 @@ class NTHBRoutesHandler implements IRoutes
             PostEntity::CLASS_NAME
         );
         $this->admin_post_model = new PostModel($this->admin_post_table_helper);
+        
+        $this->admin_media_table_helper = new DatabaseTable(
+            MediaEntity::TABLE,
+            MediaEntity::PRIMARY_KEY,
+            MediaEntity::CLASS_NAME
+        );
+        $this->admin_media_model = new MediaModel($this->admin_media_table_helper);
     }
 
     public function getRoutes(): array
@@ -125,6 +138,12 @@ class NTHBRoutesHandler implements IRoutes
                     'controller' => $controller,
                     'action' => 'index'
                 ]
+            ],
+            '/admin/post/create' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'create'
+                ]
             ]
         ];
     }
@@ -133,6 +152,7 @@ class NTHBRoutesHandler implements IRoutes
     {
         $category_api = new CategoryAPI($this->admin_category_model);
         $tag_api = new TagAPI($this->admin_tag_model);
+        $media_api = new MediaAPI($this->admin_media_model);
         
         return [
             '/api/v1/category' => [
@@ -144,6 +164,12 @@ class NTHBRoutesHandler implements IRoutes
             '/api/v1/tag' => [
                 'POST' => [
                     'controller' => $tag_api,
+                    'action' => 'store'
+                ]
+            ],
+            '/api/v1/media/upload' => [
+                'POST' => [
+                    'controller' => $media_api,
                     'action' => 'store'
                 ]
             ]

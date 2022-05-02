@@ -26,6 +26,10 @@
     <div class="container-fluid">
         <!-- /.row -->
         <div class="row">
+            <div class="col-12 mb-2">
+                <a href="/admin/post/create" class="btn btn-primary">Thêm bài viết mới</a>
+            </div>
+            
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
