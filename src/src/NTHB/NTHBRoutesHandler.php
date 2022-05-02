@@ -202,6 +202,12 @@ class NTHBRoutesHandler implements IRoutes
                     'controller' => $blog_controller,
                     'action' => 'render_blog_page'
                 ]
+            ],
+            '/blog/show' => [
+                'GET' => [
+                    'controller' => $blog_controller,
+                    'action' => 'render_blog_detail_page'
+                ]
             ]
         ];
     }

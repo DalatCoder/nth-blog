@@ -94,14 +94,12 @@
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="/static/avana/js/jquery.min.js" type="text/javascript"></script>
 <!-- custom -->
-<script src="/static/avana/js/nav.js" type="text/javascript"></script>
 <script src="/static/avana/js/custom.js" type="text/javascript"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="/static/avana/js/bootstrap.min.js" type="text/javascript"></script>
 <script src="/static/avana/js/effects/masonry.pkgd.min.js" type="text/javascript"></script>
 <script src="/static/avana/js/effects/imagesloaded.js" type="text/javascript"></script>
 <script src="/static/avana/js/effects/classie.js" type="text/javascript"></script>
-<script src="/static/avana/js/effects/AnimOnScroll.js" type="text/javascript"></script>
 <script src="/static/avana/js/effects/modernizr.custom.js"></script>
 <!-- jquery.countdown -->
 <script src="/static/avana/js/html5shiv.js" type="text/javascript"></script>

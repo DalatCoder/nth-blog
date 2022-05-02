@@ -3,6 +3,7 @@
 namespace NTHB\Controller\Client;
 
 use NTHB\Controller\NTHBBaseController;
+use NTHB\Entity\PostEntity;
 use NTHB\Model\Admin\PostModel;
 
 class BlogController extends NTHBBaseController
@@ -22,6 +23,25 @@ class BlogController extends NTHBBaseController
         
         $this->view_handler->render('client/blog.html.php', [
             'posts' => $posts
+        ]);
+    }
+    
+    public function render_blog_detail_page()
+    {
+        $slug = $_GET['post'] ?? null;
+        
+        if (is_null($slug)) {
+            $this->route_redirect('/blog');
+        }
+        
+        $post = $this->post_model->get_by_slug($slug);
+        
+        if (!$post instanceof PostEntity) {
+            $this->route_redirect('/blog');
+        }
+        
+        $this->view_handler->render('client/blog_detail.html.php', [
+            'post' => $post
         ]);
     }
 }

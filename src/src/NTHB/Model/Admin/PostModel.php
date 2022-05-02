@@ -25,6 +25,16 @@ class PostModel
     {
         return $this->post_table_helper->find(PostEntity::KEY_PUBLISHED_AT, null, 'is not', $orderBy, $orderDirection, $limit, $offset);
     }
+    
+    public function get_by_slug($slug)
+    {
+        $results = $this->post_table_helper->find(PostEntity::KEY_SLUG, $slug);
+        
+        if (count($results) == 0)
+            return null;
+        
+        return $results[0];
+    }
 
     public function count()
     {
