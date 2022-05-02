@@ -39,19 +39,19 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label for="first_name">Tên *</label>
-                        <input type="text" id="first_name" class="form-control" autocomplete="off">
+                        <input type="text" id="first_name" class="form-control" autocomplete="off" name="first_name" form="author-form">
                     </div>
                     <div class="form-group">
                         <label for="last_name">Họ *</label>
-                        <input type="text" id="last_name" class="form-control" autocomplete="off">
+                        <input type="text" id="last_name" class="form-control" autocomplete="off" name="last_name" form="author-form">
                     </div>
                     <div class="form-group">
                         <label for="intro">Giới thiệu ngắn</label>
-                        <textarea id="intro" class="form-control" rows="4"></textarea>
+                        <textarea id="intro" class="form-control" rows="4" name="intro" form="author-form"></textarea>
                     </div>
                     <div class="form-group">
                         <label for="profile">Giới thiệu bản thân</label>
-                        <textarea id="profile" class="form-control" rows="10"></textarea>
+                        <textarea id="profile" class="form-control" rows="10" name="profile" form="author-form"></textarea>
                     </div>
                 </div>
                 <!-- /.card-body -->
@@ -70,16 +70,18 @@
                     </div>
                 </div>
                 <div class="card-body">
-                    <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" id="email" class="form-control" autocomplete="off">
-                    </div>
-                    <div class="form-group">
-                        <label for="password">Mật khẩu</label>
-                        <input type="password" id="password" class="form-control" autocomplete="off">
-                    </div>
+                    <form action="" method="POST" id="author-form">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" id="email" class="form-control" autocomplete="off" name="email">
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Mật khẩu</label>
+                            <input type="password" id="password" class="form-control" autocomplete="off" name="password">
+                        </div>
 
-                    <input type="submit" value="Tạo tác giả mới" class="btn btn-success float-right">
+                        <input type="submit" value="Tạo tác giả mới" class="btn btn-success float-right" name="submit">
+                    </form>
                 </div>
                 <!-- /.card-body -->
             </div>

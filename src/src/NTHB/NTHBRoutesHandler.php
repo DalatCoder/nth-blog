@@ -14,40 +14,45 @@ use NTHB\Controller\Admin\AdminTagController;
 use NTHB\Controller\AuthController;
 use NTHB\Controller\Client\BlogController;
 use NTHB\Controller\Client\HomeController;
+use NTHB\Controller\Admin\UserController;
 use NTHB\Entity\CategoryEntity;
 use NTHB\Entity\MediaEntity;
 use NTHB\Entity\Pivot\PostCategoryEntity;
 use NTHB\Entity\Pivot\PostTagEntity;
 use NTHB\Entity\PostEntity;
 use NTHB\Entity\TagEntity;
+use NTHB\Entity\UserEntity;
 use NTHB\Model\Admin\CategoryModel;
 use NTHB\Model\Admin\MediaModel;
 use NTHB\Model\Admin\PostModel;
 use NTHB\Model\Admin\TagModel;
 use NTHB\Model\Admin\Pivot\PostCategoryModel;
 use NTHB\Model\Admin\Pivot\PostTagModel;
-use NTHB\Model\Admin\UserController;
+use NTHB\Model\Admin\UserModel;
 
 class NTHBRoutesHandler implements IRoutes
 {
     private $admin_category_table_helper;
     private $admin_category_model;
-    
+
     private $admin_tag_table_helper;
     private $admin_tag_model;
-    
+
     private $admin_post_table_helper;
     private $admin_post_model;
-    
+
     private $admin_media_table_helper;
     private $admin_media_model;
-    
+
     private $admin_post_category_table_helper;
     private $admin_post_category_model;
-    
+
     private $admin_post_tag_table_helper;
     private $admin_post_tag_model;
     
+    private $admin_user_table_helper;
+    private $admin_user_model;
+
     public function __construct()
     {
         $this->admin_category_table_helper = new DatabaseTable(
@@ -56,14 +61,14 @@ class NTHBRoutesHandler implements IRoutes
             CategoryEntity::CLASS_NAME
         );
         $this->admin_category_model = new CategoryModel($this->admin_category_table_helper);
-        
+
         $this->admin_tag_table_helper = new DatabaseTable(
             TagEntity::TABLE,
             TagEntity::PRIMARY_KEY,
             TagEntity::CLASS_NAME
         );
         $this->admin_tag_model = new TagModel($this->admin_tag_table_helper);
-        
+
         $this->admin_post_table_helper = new DatabaseTable(
             PostEntity::TABLE,
             PostEntity::PRIMARY_KEY,
@@ -75,27 +80,34 @@ class NTHBRoutesHandler implements IRoutes
             ]
         );
         $this->admin_post_model = new PostModel($this->admin_post_table_helper);
-        
+
         $this->admin_media_table_helper = new DatabaseTable(
             MediaEntity::TABLE,
             MediaEntity::PRIMARY_KEY,
             MediaEntity::CLASS_NAME
         );
         $this->admin_media_model = new MediaModel($this->admin_media_table_helper);
-        
+
         $this->admin_post_category_table_helper = new DatabaseTable(
             PostCategoryEntity::TABLE,
             PostCategoryEntity::PRIMARY_KEY,
             PostCategoryEntity::CLASS_NAME
         );
         $this->admin_post_category_model = new PostCategoryModel($this->admin_post_category_table_helper, $this->admin_category_table_helper);
-        
+
         $this->admin_post_tag_table_helper = new DatabaseTable(
             PostTagEntity::TABLE,
             PostTagEntity::PRIMARY_KEY,
             PostTagEntity::CLASS_NAME
         );
         $this->admin_post_tag_model = new PostTagModel($this->admin_post_tag_table_helper, $this->admin_tag_table_helper);
+        
+        $this->admin_user_table_helper = new DatabaseTable(
+            UserEntity::TABLE,
+            UserEntity::PRIMARY_KEY,
+            UserEntity::CLASS_NAME
+        );
+        $this->admin_user_model = new UserModel($this->admin_user_table_helper);
     }
 
     public function getRoutes(): array
@@ -116,20 +128,20 @@ class NTHBRoutesHandler implements IRoutes
 
         $auth_routes = $this->get_auth_routes();
         $client_routes = $this->get_client_routes();
-        
-        return $admin_dashboard_routes + 
-            $admin_category_routes + 
-            $admin_tag_routes + 
-            $admin_post_routes + 
+
+        return $admin_dashboard_routes +
+            $admin_category_routes +
+            $admin_tag_routes +
+            $admin_post_routes +
             $admin_user_routes +
             $auth_routes +
             $client_routes;
     }
-    
+
     public function get_admin_dashboard_routes(): array
     {
         $controller = new AdminDashboardController();
-        
+
         return [
             '/admin' => [
                 'REDIRECT' => '/admin/dashboard'
@@ -194,11 +206,11 @@ class NTHBRoutesHandler implements IRoutes
             ]
         ];
     }
-    
+
     public function get_admin_user_routes(): array
     {
-        $controller = new UserController();
-        
+        $controller = new UserController($this->admin_user_model);
+
         return [
             '/admin/author' => [
                 'GET' => [
@@ -210,15 +222,19 @@ class NTHBRoutesHandler implements IRoutes
                 'GET' => [
                     'controller' => $controller,
                     'action' => 'create'
+                ],
+                'POST' => [
+                    'controller' => $controller,
+                    'action' => 'store'
                 ]
             ]
         ];
     }
-    
+
     public function get_auth_routes(): array
     {
         $controller = new AuthController();
-        
+
         return [
             '/auth/login' => [
                 'GET' => [
@@ -228,12 +244,12 @@ class NTHBRoutesHandler implements IRoutes
             ]
         ];
     }
-    
+
     public function get_client_routes(): array
     {
         $home_controller = new HomeController();
         $blog_controller = new BlogController($this->admin_post_model);
-        
+
         return [
             '/' => [
                 'GET' => [
@@ -261,7 +277,7 @@ class NTHBRoutesHandler implements IRoutes
         $category_api = new CategoryAPI($this->admin_category_model);
         $tag_api = new TagAPI($this->admin_tag_model);
         $media_api = new MediaAPI($this->admin_media_model);
-        
+
         return [
             '/api/v1/category' => [
                 'POST' => [
