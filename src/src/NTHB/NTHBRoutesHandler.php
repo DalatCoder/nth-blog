@@ -2,6 +2,7 @@
 
 namespace NTHB;
 
+use Ninja\Authentication;
 use Ninja\DatabaseTable;
 use Ninja\NJInterface\IRoutes;
 use NTHB\API\CategoryAPI;
@@ -52,6 +53,8 @@ class NTHBRoutesHandler implements IRoutes
     
     private $admin_user_table_helper;
     private $admin_user_model;
+    
+    private $authentication_helper;
 
     public function __construct()
     {
@@ -108,6 +111,13 @@ class NTHBRoutesHandler implements IRoutes
             UserEntity::CLASS_NAME
         );
         $this->admin_user_model = new UserModel($this->admin_user_table_helper);
+        
+        
+        $this->authentication_helper = new Authentication(
+            $this->admin_user_table_helper, 
+            UserEntity::KEY_EMAIL, 
+            UserEntity::KEY_PASSWORD
+        );
     }
 
     public function getRoutes(): array
@@ -128,6 +138,15 @@ class NTHBRoutesHandler implements IRoutes
 
         $auth_routes = $this->get_auth_routes();
         $client_routes = $this->get_client_routes();
+
+        /**
+         * Login required
+         */
+        $admin_dashboard_routes = $this->required_login($admin_dashboard_routes);
+        $admin_category_routes = $this->required_login($admin_category_routes);
+        $admin_tag_routes = $this->required_login($admin_tag_routes);
+        $admin_post_routes = $this->required_login($admin_post_routes);
+        $admin_user_routes = $this->required_login($admin_user_routes);
 
         return $admin_dashboard_routes +
             $admin_category_routes +
@@ -233,13 +252,17 @@ class NTHBRoutesHandler implements IRoutes
 
     public function get_auth_routes(): array
     {
-        $controller = new AuthController();
+        $controller = new AuthController($this->authentication_helper);
 
         return [
             '/auth/login' => [
                 'GET' => [
                     'controller' => $controller,
                     'action' => 'render_login_page'
+                ],
+                'POST' => [
+                    'controller' => $controller,
+                    'action' => 'handle_login'
                 ]
             ]
         ];
@@ -302,11 +325,25 @@ class NTHBRoutesHandler implements IRoutes
 
     public function getAuthentication(): ?\Ninja\Authentication
     {
-        return null;
+        return $this->authentication_helper;
     }
 
     public function checkPermission($permission): ?bool
     {
         return null;
+    }
+
+    public function required_login($routes): array
+    {
+        $results = [];
+
+        foreach ($routes as $key => $route) {
+            $item = $route;
+            $item['login'] = true;
+
+            $results[$key] = $item;
+        }
+
+        return $results;
     }
 }

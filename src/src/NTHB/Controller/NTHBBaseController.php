@@ -13,7 +13,7 @@ class NTHBBaseController extends NJBaseController
 
     public function handle_on_invalid_authentication(array $args)
     {
-        $this->view_handler->render('auth/sign-in.html.php');
+        $this->route_redirect('/auth/login');
     }
 
     public function handle_on_invalid_permission($args)
