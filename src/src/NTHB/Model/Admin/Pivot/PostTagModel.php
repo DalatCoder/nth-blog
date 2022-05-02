@@ -39,6 +39,7 @@ class PostTagModel
         return $this->post_tag_table_helper->find(
             PostCategoryEntity::KEY_POST_ID, 
             $post_id,
+            '=',
             $orderBy,
             $orderDirection,
             $limit,
@@ -51,6 +52,7 @@ class PostTagModel
         return $this->post_tag_table_helper->find(
             PostCategoryEntity::KEY_CATEGORY_ID,
             $tag_id,
+            '=',
             $orderBy,
             $orderDirection,
             $limit,

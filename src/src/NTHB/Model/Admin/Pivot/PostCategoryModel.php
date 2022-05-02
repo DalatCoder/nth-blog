@@ -38,6 +38,7 @@ class PostCategoryModel
         return $this->post_category_table_helper->find(
             PostCategoryEntity::KEY_POST_ID,
             $post_id,
+            '=',
             $orderBy,
             $orderDirection,
             $limit,
@@ -50,6 +51,7 @@ class PostCategoryModel
         return $this->post_category_table_helper->find(
             PostCategoryEntity::KEY_CATEGORY_ID,
             $category_id,
+            '=',
             $orderBy,
             $orderDirection,
             $limit,
