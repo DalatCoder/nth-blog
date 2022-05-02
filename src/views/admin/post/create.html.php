@@ -11,6 +11,8 @@
 <link rel="stylesheet" href="/static/admin-lte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 <!-- SweetAlert2 -->
 <link rel="stylesheet" href="/static/admin-lte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+<!-- Ekko Lightbox -->
+<link rel="stylesheet" href="/static/admin-lte/plugins/ekko-lightbox/ekko-lightbox.css">
 {% endblock %}
 
 {% block content_header %}
@@ -158,21 +160,28 @@
         <div class="col-12">
             <div class="card card-primary">
                 <div class="card-header">
-                    <h3 class="card-title">Ảnh bìa</h3>
-
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                            <i class="fas fa-minus"></i>
-                        </button>
-                    </div>
+                    <h4 class="card-title">Ảnh bìa</h4>
                 </div>
                 <div class="card-body">
-                    <div class="form-group">
-                        <label for="cover-image">Ảnh bìa</label>
-                        <input type="number" id="cover-image" class="form-control">
+                    <div class="row" id="gallery-body">
+                        <div class="col-12 mb-3" id="selected-cover-image-text">
+                            Ảnh bìa đang được chọn: <strong>Chưa chọn ảnh bìa nào</strong>
+                        </div>
+                        <?php foreach ($medias as $media): ?>
+                        <div class="col-sm-2">
+                            <a 
+                                href="<?= $media->{\NTHB\Entity\MediaEntity::KEY_FILE_LOCATION} ?>" 
+                                data-media_id="<?= $media->{\NTHB\Entity\MediaEntity::KEY_ID} ?>" 
+                                data-toggle="lightbox" 
+                                data-title="<?= $media->{\NTHB\Entity\MediaEntity::KEY_FILE_NAME} ?>" 
+                                data-gallery="gallery"
+                            >
+                                <img src="<?= $media->{\NTHB\Entity\MediaEntity::KEY_FILE_LOCATION} ?>" class="img-fluid mb-2" alt="<?= $media->{\NTHB\Entity\MediaEntity::KEY_FILE_NAME} ?>"/>
+                            </a>
+                        </div>
+                        <?php endforeach; ?>
                     </div>
                 </div>
-                <!-- /.card-body -->
             </div>
         </div>
 
@@ -198,6 +207,10 @@
 <script src="/static/admin-lte/plugins/select2/js/select2.full.min.js"></script>
 <!--SweeetAlert-->
 <script src="/static/admin-lte/plugins/sweetalert2/sweetalert2.min.js"></script>
+<!-- Ekko Lightbox -->
+<script src="/static/admin-lte/plugins/ekko-lightbox/ekko-lightbox.min.js"></script>
+<!-- Filterizr-->
+<script src="/static/admin-lte/plugins/filterizr/jquery.filterizr.min.js"></script>
 
 <script>
     $(function () {
@@ -240,6 +253,21 @@
                             // const url = `${data.data.scheme}://${data.data.host}${data.data.path}`
                             const url = data.data.path
                             $('#summernote').summernote('insertImage', url);
+                            
+                            const media = data.data.media;
+                            DOMSelect.galleryBody.insertAdjacentHTML('beforeend', `
+                            <div class="col-sm-2">
+                                <a
+                                    href="${media.file_location}"
+                                    data-media_id="${media.id}"
+                                    data-toggle="lightbox"
+                                    data-title="${media.file_name}"
+                                    data-gallery="gallery"
+                                >
+                                    <img src="${media.file_location}" class="img-fluid mb-2" alt="${media.file_name}"/>
+                                </a>
+                            </div>
+                            `);
                         }
                         else {
                             alert('Error while trying to upload image: ' + (data.msg || ''))
@@ -260,7 +288,9 @@
             newCategoryInput: document.getElementById('new-category'),
             newCategoryButton: document.getElementById('new-category-button'),
             newTagInput: document.getElementById('new-tag'),
-            newTagButton: document.getElementById('new-tag-button')
+            newTagButton: document.getElementById('new-tag-button'),
+            galleryBody: document.getElementById('gallery-body'),
+            selectedCoverImageText: document.getElementById('selected-cover-image-text')
         }
         
         DOMSelect.newCategoryButton.addEventListener('click', function (e) {
@@ -342,6 +372,20 @@
                     }
                 })
         })
+
+        $(document).on('click', '[data-toggle="lightbox"]', function(event) {
+            event.preventDefault();
+            
+            const mediaID = $(this).data('media_id');
+            const mediaName = $(this).data('title');
+            const mediaPath = $(this).attr('href');
+            
+            DOMSelect.selectedCoverImageText.querySelector('strong').innerHTML = mediaName + ' @ ' + mediaPath;
+            
+            $(this).ekkoLightbox({
+                alwaysShowClose: true
+            });
+        });
     })
 </script>
 {% endblock %}

@@ -130,7 +130,7 @@ class NTHBRoutesHandler implements IRoutes
 
     public function get_admin_post_routes(): array
     {
-        $controller = new AdminPostController($this->admin_post_model, $this->admin_category_model, $this->admin_tag_model);
+        $controller = new AdminPostController($this->admin_post_model, $this->admin_category_model, $this->admin_tag_model, $this->admin_media_model);
 
         return [
             '/admin/post' => [
