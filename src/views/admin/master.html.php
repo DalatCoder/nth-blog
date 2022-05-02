@@ -19,8 +19,6 @@
     <link rel="stylesheet" href="/static/admin-lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
     <!-- JQVMap -->
     <link rel="stylesheet" href="/static/admin-lte/plugins/jqvmap/jqvmap.min.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="/static/admin-lte/dist/css/adminlte.min.css">
     <!-- overlayScrollbars -->
     <link rel="stylesheet" href="/static/admin-lte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
     <!-- Daterange picker -->
@@ -29,6 +27,9 @@
     <link rel="stylesheet" href="/static/admin-lte/plugins/summernote/summernote-bs4.min.css">
 
     {% yield custom_styles %}
+
+    <!-- Theme style -->
+    <link rel="stylesheet" href="/static/admin-lte/dist/css/adminlte.min.css">
 </head>
 <body class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">

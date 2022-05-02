@@ -6,6 +6,9 @@
 <!-- CodeMirror -->
 <link rel="stylesheet" href="/static/admin-lte/plugins/codemirror/codemirror.css">
 <link rel="stylesheet" href="/static/admin-lte/plugins/codemirror/theme/monokai.css">
+<!-- Select2 -->
+<link rel="stylesheet" href="/static/admin-lte/plugins/select2/css/select2.min.css">
+<link rel="stylesheet" href="/static/admin-lte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
 {% endblock %}
 
 {% block content_header %}
@@ -80,16 +83,20 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group">
-                        <label for="categories">Chọn thể loại</label>
-                        <input type="number" id="categories" class="form-control">
+                        <label for="categories">Chọn thể loại *</label>
+                        <select class="categories-select2" id="categories" multiple="multiple" data-placeholder="Chọn 1 hoặc nhiều thể loại" style="width: 100%;">
+                            <?php foreach ($categories as $category): ?>
+                                <option value="<?= $category->{\NTHB\Entity\CategoryEntity::KEY_ID} ?>"><?= $category->{\NTHB\Entity\CategoryEntity::KEY_TITLE} ?></option>
+                            <?php endforeach; ?>
+                        </select>
                     </div>
                     <hr>
                     <div class="form-group">
-                        <label for="tags">Tên thể loại</label>
-                        <input type="number" id="tags" class="form-control">
+                        <label for="new-category">Tên thể loại</label>
+                        <input type="text" id="new-category" class="form-control">
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="Thêm thể loại mới" class="btn btn-primary float-right">
+                        <input id="new-category-button" type="submit" value="Thêm thể loại mới" class="btn btn-primary float-right">
                     </div>
                 </div>
                 <!-- /.card-body -->
@@ -107,16 +114,20 @@
                 </div>
                 <div class="card-body">
                     <div class="form-group">
-                        <label for="categories">Chọn thẻ</label>
-                        <input type="number" id="categories" class="form-control">
+                        <label for="tags">Chọn thẻ</label>
+                        <select class="tags-select2" id="tags" multiple="multiple" data-placeholder="Chọn 1 hoặc nhiều thẻ" style="width: 100%;">
+                            <?php foreach ($tags as $tag): ?>
+                                <option value="<?= $tag->{\NTHB\Entity\TagEntity::KEY_ID} ?>"><?= $tag->{\NTHB\Entity\TagEntity::KEY_TITLE} ?></option>
+                            <?php endforeach; ?>
+                        </select>
                     </div>
                     <hr>
                     <div class="form-group">
-                        <label for="tags">Tên thẻ</label>
-                        <input type="number" id="tags" class="form-control">
+                        <label for="new-tag">Tên thẻ</label>
+                        <input type="text" id="new-tag" class="form-control">
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="Thêm thẻ mới" class="btn btn-primary float-right">
+                        <input id="new-tag-button" type="submit" value="Thêm thẻ mới" class="btn btn-primary float-right">
                     </div>
                 </div>
                 <!-- /.card-body -->
@@ -181,9 +192,15 @@
 <script src="/static/admin-lte/plugins/codemirror/mode/css/css.js"></script>
 <script src="/static/admin-lte/plugins/codemirror/mode/xml/xml.js"></script>
 <script src="/static/admin-lte/plugins/codemirror/mode/htmlmixed/htmlmixed.js"></script>
+<!-- Select2 -->
+<script src="/static/admin-lte/plugins/select2/js/select2.full.min.js"></script>
 
 <script>
     $(function () {
+        //Initialize Select2 Elements
+        $('.categories-select2').select2()
+        $('.tags-select2').select2()
+        
         function uploadFile(file, onSuccess, onError) {
             const data = new FormData()
             data.append("file", file)
