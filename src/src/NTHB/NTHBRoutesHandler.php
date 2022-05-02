@@ -73,18 +73,6 @@ class NTHBRoutesHandler implements IRoutes
         );
         $this->admin_tag_model = new TagModel($this->admin_tag_table_helper);
 
-        $this->admin_post_table_helper = new DatabaseTable(
-            PostEntity::TABLE,
-            PostEntity::PRIMARY_KEY,
-            PostEntity::CLASS_NAME,
-            [
-                &$this->admin_post_category_model,
-                &$this->admin_post_tag_model,
-                &$this->admin_media_model
-            ]
-        );
-        $this->admin_post_model = new PostModel($this->admin_post_table_helper);
-
         $this->admin_media_table_helper = new DatabaseTable(
             MediaEntity::TABLE,
             MediaEntity::PRIMARY_KEY,
@@ -112,8 +100,21 @@ class NTHBRoutesHandler implements IRoutes
             UserEntity::CLASS_NAME
         );
         $this->admin_user_model = new UserModel($this->admin_user_table_helper);
-        
-        
+
+        $this->admin_post_table_helper = new DatabaseTable(
+            PostEntity::TABLE,
+            PostEntity::PRIMARY_KEY,
+            PostEntity::CLASS_NAME,
+            [
+                &$this->admin_post_category_model,
+                &$this->admin_post_tag_model,
+                &$this->admin_media_model,
+                &$this->admin_user_model
+            ]
+        );
+        $this->admin_post_model = new PostModel($this->admin_post_table_helper);
+
+
         $this->authentication_helper = new Authentication(
             $this->admin_user_table_helper, 
             UserEntity::KEY_EMAIL, 

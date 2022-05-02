@@ -3,8 +3,6 @@
 namespace NTHB\Entity;
 
 use Exception;
-use NTHB\Model\Pivot\PostCategoryModel;
-use NTHB\Model\Pivot\PostTagModel;
 
 class PostEntity
 {
@@ -30,16 +28,19 @@ class PostEntity
     protected $post_category_model;
     protected $post_tag_model;
     protected $media_model;
+    protected $user_model;
     
     protected $categories;
     protected $tags;
     protected $cover_image;
+    protected $author;
     
-    public function __construct($post_category_model, $post_tag_model, $media_model)
+    public function __construct($post_category_model, $post_tag_model, $media_model, $user_model)
     {
         $this->post_category_model = $post_category_model;
         $this->post_tag_model = $post_tag_model;
         $this->media_model = $media_model;
+        $this->user_model = $user_model;
     }
     
     public function fetch_categories()
@@ -101,5 +102,13 @@ class PostEntity
             return 'default.jpg';
         
         return $this->cover_image->{MediaEntity::KEY_FILE_LOCATION};
+    }
+    
+    public function get_author()
+    {
+        if (!$this->author)
+            $this->author = $this->user_model->get_by_id($this->{self::KEY_AUTHOR_ID});
+        
+        return $this->author;
     }
 }
