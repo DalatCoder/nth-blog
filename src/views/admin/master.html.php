@@ -50,6 +50,9 @@
             <li class="nav-item d-none d-sm-inline-block">
                 <a href="/" target="_blank" class="nav-link">Blog</a>
             </li>
+            <li class="nav-item d-none d-sm-inline-block">
+                <span class="nav-link">Xin chào, <?= $login_user instanceof \NTHB\Entity\UserEntity ? $login_user->first_name . ' ' . $login_user->last_name : 'N/A' ?></span>
+            </li>
         </ul>
 
         <!-- Right navbar links -->
@@ -110,7 +113,7 @@
                          alt="User Image">
                 </div>
                 <div class="info">
-                    <a href="#" class="d-block">Trọng Hiếu Nguyễn</a>
+                    <a href="#" class="d-block"><?= $login_user instanceof \NTHB\Entity\UserEntity ? $login_user->first_name . ' ' . $login_user->last_name : 'N/A' ?></a>
                 </div>
             </div>
 

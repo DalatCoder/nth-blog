@@ -43,6 +43,10 @@
         <!-- nav -->
         <nav role="header-nav" class="navy">
             <ul>
+                <?php if ($is_login): ?>
+                    <li class=""><a href="/admin" title="Admin">Admin</a></li>
+                <?php endif; ?>
+                
                 <li class="<?= $route == '/' ? 'nav-active': '' ?>"><a href="/" title="Work">Work</a></li>
                 <li class="<?= $route == '/about' ? 'nav-active': '' ?>"><a href="/about" title="About">About</a></li>
                 <li class="<?= strpos($route, '/blog') !== false ? 'nav-active': '' ?>"><a href="/blog" title="Blog">Blog</a></li>
@@ -71,6 +75,9 @@
     <!-- nav -->
     <nav role="footer-nav">
         <ul>
+            <?php if ($is_login): ?>
+                <li class=""><a href="/admin" title="Admin">Admin</a></li>
+            <?php endif; ?>
             <li><a href="/" title="Work">Work</a></li>
             <li><a href="/about" title="About">About</a></li>
             <li><a href="/blog" title="Blog">Blog</a></li>
