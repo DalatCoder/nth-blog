@@ -27,7 +27,6 @@ class TagAPI
             $content = $request_helper->get('content');
 
             if (empty($title)) throw new NinjaException('Tiêu đề không được để trống');
-            if (empty($slug)) throw new NinjaException('Slug không được để trống');
 
             $tag = $this->tag_model->create($title, $meta_title, $slug, $content);
             ResponseHelper::getInstance()->createdSuccess($tag, 'Tạo tag mới thành công');

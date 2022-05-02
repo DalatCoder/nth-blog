@@ -4,6 +4,7 @@ namespace NTHB\Model\Admin;
 
 use Exception;
 use Ninja\DatabaseTable;
+use Ninja\Utils\NJStringUtils;
 use NTHB\Entity\TagEntity;
 
 class TagModel
@@ -31,10 +32,29 @@ class TagModel
      */
     public function create($title, $meta_title, $slug, $content)
     {
+        if (empty($slug)) {
+            $unique_id = '';
+
+            while (true) {
+                if (empty($unique_id)) {
+                    $unique_slug = NJStringUtils::slugify($title);
+                }
+                else {
+                    $unique_slug = NJStringUtils::slugify($title . ' ' . $unique_id);
+                }
+
+                $results = $this->tag_table_helper->find(TagEntity::KEY_SLUG, $unique_slug);
+                if (count($results) == 0)
+                    break;
+                else
+                    $unique_id = uniqid();
+            }
+        }
+        
         return $this->tag_table_helper->save([
             TagEntity::KEY_TITLE => $title,
             TagEntity::KEY_META_TITLE => $meta_title,
-            TagEntity::KEY_SLUG => $slug,
+            TagEntity::KEY_SLUG => $unique_slug ?? $slug,
             TagEntity::KEY_CONTENT => $content
         ]);
     }
