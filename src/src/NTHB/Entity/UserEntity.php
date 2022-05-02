@@ -18,4 +18,9 @@ class UserEntity
     const KEY_CREATED_AT = 'created_at';
     const KEY_UPDATED_AT = 'updated_at';
     const KEY_DELETED_AT = 'deleted_at';
+    
+    public function get_created_at()
+    {
+        return \DateTime::createFromFormat('Y-m-d H:i:s', $this->{self::KEY_CREATED_AT});
+    }
 }
