@@ -161,11 +161,11 @@ class NTHBRoutesHandler implements IRoutes
         /**
          * Login required
          */
-        $admin_dashboard_routes = $this->required_login($admin_dashboard_routes);
-        $admin_category_routes = $this->required_login($admin_category_routes);
-        $admin_tag_routes = $this->required_login($admin_tag_routes);
-        $admin_post_routes = $this->required_login($admin_post_routes);
-        $admin_user_routes = $this->required_login($admin_user_routes);
+        $admin_dashboard_routes = $this->add_login_required($admin_dashboard_routes);
+        $admin_category_routes = $this->add_login_required($admin_category_routes);
+        $admin_tag_routes = $this->add_login_required($admin_tag_routes);
+        $admin_post_routes = $this->add_login_required($admin_post_routes);
+        $admin_user_routes = $this->add_login_required($admin_user_routes);
 
         return $admin_dashboard_routes +
             $admin_category_routes +
@@ -402,7 +402,7 @@ class NTHBRoutesHandler implements IRoutes
         return null;
     }
 
-    public function required_login($routes): array
+    public function add_login_required($routes): array
     {
         $results = [];
 
