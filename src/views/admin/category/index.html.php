@@ -1,5 +1,10 @@
 {% extends admin/master.html.php %}
 
+{% block custom_styles %}
+<!-- SweetAlert2 -->
+<link rel="stylesheet" href="/static/admin-lte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
+{% endblock %}
+
 {% block content_header %}
 <!-- Content Header (Page header) -->
 <div class="content-header">
@@ -59,7 +64,7 @@
                         <!-- /.card-body -->
 
                         <div class="card-footer">
-                            <button type="submit" class="btn btn-primary">Tạo mới</button>
+                            <button id="create-button" type="submit" class="btn btn-primary">Tạo mới</button>
                         </div>
                     </form>
                 </div>
@@ -94,7 +99,7 @@
                                 <th></th>
                             </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="tbody">
                             <?php foreach ($categories as $category): ?>
                             <tr>
                                 <td><?= $category->{\NTHB\Entity\CategoryEntity::KEY_ID} ?></td>
@@ -123,3 +128,82 @@
 <!-- /.content -->
 {% endblock %}
 
+{% block custom_scripts %}
+<script src="/static/admin-lte/plugins/sweetalert2/sweetalert2.min.js"></script>
+
+<script>
+    $(function () {
+        const Toast = Swal.mixin({
+            toast: true, 
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000
+        })
+        
+        const DOMSelect = {
+            createButton: document.getElementById('create-button'),
+            titleInput: document.getElementById('title'),
+            metaTitleInput: document.getElementById('meta_title'),
+            slugInput: document.getElementById('slug'),
+            contentInput: document.getElementById('content'),
+            tableTbody: document.getElementById('tbody')
+        }
+        
+        DOMSelect.createButton.addEventListener('click', function (e) {
+            e.preventDefault()
+            
+            const data = {
+                title: DOMSelect.titleInput.value,
+                metaTitle: DOMSelect.metaTitleInput.value,
+                slug: DOMSelect.slugInput.value,
+                content: DOMSelect.contentInput.value
+            }
+            
+            fetch('/api/v1/category', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    Toast.fire({
+                        icon: 'success',
+                        title: data.msg
+                    })
+                    
+                    const newCategory = data.data
+                    DOMSelect.tableTbody.insertAdjacentHTML('beforeend', `
+                        <tr>
+                            <td>${newCategory.id}</td>
+                            <td>${newCategory.title}</td>
+                            <td>${newCategory.content}</td>
+                            <td>1</td>
+                            <td class="text-right py-0 align-middle">
+                                <div class="btn-group btn-group-sm">
+                                    <a href="#" class="btn btn-info mr-2"><i class="fas fa-eye"></i></a>
+                                    <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                    `)
+                    
+                    DOMSelect.titleInput.value = ''
+                    DOMSelect.metaTitleInput.value = ''
+                    DOMSelect.slugInput.value = ''
+                    DOMSelect.contentInput.value = ''
+                }
+                else {
+                    Toast.fire({
+                        icon: 'error',
+                        title: data.msg
+                    })
+                }
+            })
+
+        })
+    })
+</script>
+{% endblock %}

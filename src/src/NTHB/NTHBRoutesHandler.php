@@ -4,6 +4,7 @@ namespace NTHB;
 
 use Ninja\DatabaseTable;
 use Ninja\NJInterface\IRoutes;
+use NTHB\API\CategoryAPI;
 use NTHB\Controller\Admin\AdminCategoryController;
 use NTHB\Controller\Admin\AdminDashboardController;
 use NTHB\Entity\CategoryEntity;
@@ -73,7 +74,16 @@ class NTHBRoutesHandler implements IRoutes
 
     public function get_all_api_routes(): array
     {
-        return [];
+        $category_api = new CategoryAPI($this->admin_category_model);
+        
+        return [
+            '/api/v1/category' => [
+                'POST' => [
+                    'controller' => $category_api,
+                    'action' => 'store'
+                ]
+            ]
+        ];
     }
 
     public function getAuthentication(): ?\Ninja\Authentication
