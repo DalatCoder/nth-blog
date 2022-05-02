@@ -94,28 +94,53 @@
             </li>
         </ul>
         <div class="commentys-form">
-            <h4>Leave a comment</h4>
+            <h4>Để lại bình luận</h4>
             <div class="row">
-                <form action="" method="get">
-                    <div class="col-xs-12 col-sm-4 col-md-4">
-                        <input name="" type="text" placeholder="Whats your name *">
-                    </div>
-                    <div class="col-xs-12 col-sm-4 col-md-4">
-                        <input name="" type="email" placeholder="Whats your email *">
-                    </div>
-                    <div class="col-xs-12 col-sm-4 col-md-4">
-                        <input name="" type="url" placeholder="Runing a Website">
-                    </div>
+                <form action="/comment/create" method="POST" id="comment-form">
+                    <?php if ($is_login): ?>
+                        <input type="hidden" name="author_id" value="<?= $login_user->id ?>">
+                        <div class="col-xs-12 col-sm-4 col-md-4">
+                            <input name="first_name" type="text" placeholder="Tên *" autocomplete="off" value="<?= $login_user->first_name ?>" readonly>
+                        </div>
+                        <div class="col-xs-12 col-sm-4 col-md-4">
+                            <input name="last_name" type="text" placeholder="Họ đệm *" autocomplete="off" value="<?= $login_user->last_name ?>" readonly>
+                        </div>
+                        <div class="col-xs-12 col-sm-4 col-md-4">
+                            <input name="email" type="text" placeholder="Email *" autocomplete="off" value="<?= $login_user->email ?>">
+                        </div>
+                    <?php else: ?>
+                        <div class="col-xs-12 col-sm-4 col-md-4">
+                            <input name="first_name" type="text" placeholder="Tên *" autocomplete="off">
+                        </div>
+                        <div class="col-xs-12 col-sm-4 col-md-4">
+                            <input name="last_name" type="text" placeholder="Họ đệm *" autocomplete="off">
+                        </div>
+                        <div class="col-xs-12 col-sm-4 col-md-4">
+                            <input name="email" type="text" placeholder="Email *" autocomplete="off">
+                        </div>
+                    <?php endif; ?>
+                    <input type="hidden" name="parent_id" id="comment_parent_id" value="">
+                    <input type="hidden" name="post_id" value="<?= $post->{\NTHB\Entity\PostEntity::PRIMARY_KEY} ?>">
+                    <input type="hidden" name="slug" value="<?= $post->{\NTHB\Entity\PostEntity::KEY_SLUG} ?>">
                     <div class="clearfix"></div>
                     <div class="col-xs-12 col-sm-12 col-md-12">
-                        <textarea name="" cols="" rows="" placeholder="Whats in your mind"></textarea>
+                        <textarea name="content" cols="" rows="3" placeholder="Chia sẻ cảm nghĩ của bạn về bài viết..."></textarea>
                     </div>
                     <div class="text-center">
-                        <input name="" type="button" value="Post Comment">
+                        <input id="create-comment-button" name="" type="button" value="Nhận xét">
+                        <input type="submit" value="" id="submit-comment-button" style="opacity: 0">
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+{% endblock %}
+
+{% block custom_scripts %}
+<script>
+    document.getElementById('create-comment-button').addEventListener('click', function () {
+        document.getElementById('submit-comment-button').click()
+    })
+</script>
 {% endblock %}

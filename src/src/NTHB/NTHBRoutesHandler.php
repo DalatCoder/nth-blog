@@ -12,6 +12,7 @@ use NTHB\Controller\Admin\AdminCategoryController;
 use NTHB\Controller\Admin\AdminDashboardController;
 use NTHB\Controller\Admin\AdminPostController;
 use NTHB\Controller\Admin\AdminTagController;
+use NTHB\Controller\Admin\CommentController;
 use NTHB\Controller\AuthController;
 use NTHB\Controller\Client\BlogController;
 use NTHB\Controller\Client\HomeController;
@@ -21,10 +22,12 @@ use NTHB\Entity\CategoryEntity;
 use NTHB\Entity\MediaEntity;
 use NTHB\Entity\Pivot\PostCategoryEntity;
 use NTHB\Entity\Pivot\PostTagEntity;
+use NTHB\Entity\PostComment;
 use NTHB\Entity\PostEntity;
 use NTHB\Entity\TagEntity;
 use NTHB\Entity\UserEntity;
 use NTHB\Model\Admin\CategoryModel;
+use NTHB\Model\Admin\CommentModel;
 use NTHB\Model\Admin\MediaModel;
 use NTHB\Model\Admin\PostModel;
 use NTHB\Model\Admin\TagModel;
@@ -54,6 +57,9 @@ class NTHBRoutesHandler implements IRoutes
     
     private $admin_user_table_helper;
     private $admin_user_model;
+    
+    private $admin_comment_table_helper;
+    private $admin_comment_model;
     
     private $authentication_helper;
 
@@ -100,7 +106,14 @@ class NTHBRoutesHandler implements IRoutes
             UserEntity::CLASS_NAME
         );
         $this->admin_user_model = new UserModel($this->admin_user_table_helper);
-
+        
+        $this->admin_comment_table_helper = new DatabaseTable(
+            PostComment::TABLE,
+            PostComment::PRIMARY_KEY,
+            PostComment::CLASS_NAME
+        );
+        $this->admin_comment_model = new CommentModel($this->admin_comment_table_helper);
+        
         $this->admin_post_table_helper = new DatabaseTable(
             PostEntity::TABLE,
             PostEntity::PRIMARY_KEY,
@@ -137,6 +150,7 @@ class NTHBRoutesHandler implements IRoutes
         $admin_tag_routes = $this->get_admin_tag_routes();
         $admin_post_routes = $this->get_admin_post_routes();
         $admin_user_routes = $this->get_admin_user_routes();
+        $admin_comment_routes = $this->get_admin_comment_routes();
 
         $auth_routes = $this->get_auth_routes();
         $client_routes = $this->get_client_routes();
@@ -155,6 +169,7 @@ class NTHBRoutesHandler implements IRoutes
             $admin_tag_routes +
             $admin_post_routes +
             $admin_user_routes +
+            $admin_comment_routes +
             $auth_routes +
             $client_routes;
     }
@@ -244,6 +259,20 @@ class NTHBRoutesHandler implements IRoutes
                     'controller' => $controller,
                     'action' => 'create'
                 ],
+                'POST' => [
+                    'controller' => $controller,
+                    'action' => 'store'
+                ]
+            ]
+        ];
+    }
+    
+    public function get_admin_comment_routes(): array
+    {
+        $controller = new CommentController($this->admin_comment_model);
+        
+        return [
+            '/comment/create' => [
                 'POST' => [
                     'controller' => $controller,
                     'action' => 'store'
