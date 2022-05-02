@@ -5,6 +5,7 @@ namespace NTHB;
 use Ninja\DatabaseTable;
 use Ninja\NJInterface\IRoutes;
 use NTHB\API\CategoryAPI;
+use NTHB\API\TagAPI;
 use NTHB\Controller\Admin\AdminCategoryController;
 use NTHB\Controller\Admin\AdminDashboardController;
 use NTHB\Controller\Admin\AdminTagController;
@@ -103,11 +104,18 @@ class NTHBRoutesHandler implements IRoutes
     public function get_all_api_routes(): array
     {
         $category_api = new CategoryAPI($this->admin_category_model);
+        $tag_api = new TagAPI($this->admin_tag_model);
         
         return [
             '/api/v1/category' => [
                 'POST' => [
                     'controller' => $category_api,
+                    'action' => 'store'
+                ]
+            ],
+            '/api/v1/tag' => [
+                'POST' => [
+                    'controller' => $tag_api,
                     'action' => 'store'
                 ]
             ]
