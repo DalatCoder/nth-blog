@@ -11,6 +11,7 @@ use NTHB\Controller\Admin\AdminCategoryController;
 use NTHB\Controller\Admin\AdminDashboardController;
 use NTHB\Controller\Admin\AdminPostController;
 use NTHB\Controller\Admin\AdminTagController;
+use NTHB\Controller\Client\HomeController;
 use NTHB\Entity\CategoryEntity;
 use NTHB\Entity\MediaEntity;
 use NTHB\Entity\Pivot\PostCategoryEntity;
@@ -108,7 +109,9 @@ class NTHBRoutesHandler implements IRoutes
         $admin_tag_routes = $this->get_admin_tag_routes();
         $admin_post_routes = $this->get_admin_post_routes();
         
-        return $admin_dashboard_routes + $admin_category_routes + $admin_tag_routes + $admin_post_routes;
+        $client_routes = $this->get_client_routes();
+        
+        return $admin_dashboard_routes + $admin_category_routes + $admin_tag_routes + $admin_post_routes + $client_routes;
     }
     
     public function get_admin_dashboard_routes(): array
@@ -175,6 +178,20 @@ class NTHBRoutesHandler implements IRoutes
                 'POST' => [
                     'controller' => $controller,
                     'action' => 'store'
+                ]
+            ]
+        ];
+    }
+    
+    public function get_client_routes(): array
+    {
+        $home_controller = new HomeController();
+        
+        return [
+            '/' => [
+                'GET' => [
+                    'controller' => $home_controller,
+                    'action' => 'render_home_page'
                 ]
             ]
         ];
