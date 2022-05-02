@@ -126,7 +126,6 @@
                             <i class="nav-icon fas fa-th"></i>
                             <p>
                                 Tổng quan
-                                <span class="right badge badge-danger">Mới</span>
                             </p>
                         </a>
                     </li>
@@ -168,10 +167,7 @@
                             <li class="nav-item">
                                 <a href="/admin/comment" class="nav-link <?= "/admin/comment" == $route ? 'active' : '' ?>">
                                     <i class="far fa-circle nav-icon"></i>
-                                    <p>
-                                        Bình luận
-                                        <span class="badge badge-info right">2</span>
-                                    </p>
+                                    <p>Bình luận</p>
                                 </a>
                             </li>
                         </ul>
