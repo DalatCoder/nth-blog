@@ -26,6 +26,7 @@ use NTHB\Model\Admin\PostModel;
 use NTHB\Model\Admin\TagModel;
 use NTHB\Model\Admin\Pivot\PostCategoryModel;
 use NTHB\Model\Admin\Pivot\PostTagModel;
+use NTHB\Model\Admin\UserController;
 
 class NTHBRoutesHandler implements IRoutes
 {
@@ -111,6 +112,7 @@ class NTHBRoutesHandler implements IRoutes
         $admin_category_routes = $this->get_admin_category_routes();
         $admin_tag_routes = $this->get_admin_tag_routes();
         $admin_post_routes = $this->get_admin_post_routes();
+        $admin_user_routes = $this->get_admin_user_routes();
 
         $auth_routes = $this->get_auth_routes();
         $client_routes = $this->get_client_routes();
@@ -119,6 +121,7 @@ class NTHBRoutesHandler implements IRoutes
             $admin_category_routes + 
             $admin_tag_routes + 
             $admin_post_routes + 
+            $admin_user_routes +
             $auth_routes +
             $client_routes;
     }
@@ -187,6 +190,20 @@ class NTHBRoutesHandler implements IRoutes
                 'POST' => [
                     'controller' => $controller,
                     'action' => 'store'
+                ]
+            ]
+        ];
+    }
+    
+    public function get_admin_user_routes(): array
+    {
+        $controller = new UserController();
+        
+        return [
+            '/admin/author' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'index'
                 ]
             ]
         ];

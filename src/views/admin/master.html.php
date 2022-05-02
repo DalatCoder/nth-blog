@@ -143,13 +143,15 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/admin/post/create" class="nav-link <?= "/admin/post/create" == $route ? 'active' : '' ?>">
+                                <a href="/admin/post/create"
+                                   class="nav-link <?= "/admin/post/create" == $route ? 'active' : '' ?>">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Thêm bài viết</p>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="/admin/category" class="nav-link <?= "/admin/category" == $route ? 'active' : '' ?>">
+                                <a href="/admin/category"
+                                   class="nav-link <?= "/admin/category" == $route ? 'active' : '' ?>">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Thể loại</p>
                                 </a>
@@ -167,6 +169,31 @@
                                         Bình luận
                                         <span class="badge badge-info right">2</span>
                                     </p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="nav-item menu-open">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-tachometer-alt"></i>
+                            <p>
+                                Tác giả
+                                <i class="right fas fa-angle-left"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="/admin/author"
+                                   class="nav-link <?= "/admin/author" == $route ? 'active' : '' ?>">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Tác giả</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="/admin/author/create"
+                                   class="nav-link <?= "/admin/author/create" == $route ? 'active' : '' ?>">
+                                    <i class="far fa-circle nav-icon"></i>
+                                    <p>Thêm tác giả</p>
                                 </a>
                             </li>
                         </ul>
