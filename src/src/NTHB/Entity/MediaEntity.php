@@ -6,7 +6,7 @@ class MediaEntity
 {
     const PRIMARY_KEY = 'id';
     const TABLE = 'media';
-    const CLASS_NAME = '\\NTHB\\Entity\\media';
+    const CLASS_NAME = '\\NTHB\\Entity\\MediaEntity';
     
     const KEY_ID = 'id';
     const KEY_FILE_NAME = 'file_name';
