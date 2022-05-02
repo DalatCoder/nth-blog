@@ -7,13 +7,19 @@ use Ninja\NJInterface\IRoutes;
 use NTHB\API\CategoryAPI;
 use NTHB\Controller\Admin\AdminCategoryController;
 use NTHB\Controller\Admin\AdminDashboardController;
+use NTHB\Controller\Admin\AdminTagController;
 use NTHB\Entity\CategoryEntity;
+use NTHB\Entity\TagEntity;
 use NTHB\Model\Admin\CategoryModel;
+use NTHB\Model\Admin\TagModel;
 
 class NTHBRoutesHandler implements IRoutes
 {
     private $admin_category_table_helper;
     private $admin_category_model;
+    
+    private $admin_tag_table_helper;
+    private $admin_tag_model;
     
     public function __construct()
     {
@@ -23,6 +29,13 @@ class NTHBRoutesHandler implements IRoutes
             CategoryEntity::CLASS_NAME
         );
         $this->admin_category_model = new CategoryModel($this->admin_category_table_helper);
+        
+        $this->admin_tag_table_helper = new DatabaseTable(
+            TagEntity::TABLE,
+            TagEntity::PRIMARY_KEY,
+            TagEntity::CLASS_NAME
+        );
+        $this->admin_tag_model = new TagModel($this->admin_tag_table_helper);
     }
 
     public function getRoutes(): array
@@ -37,8 +50,9 @@ class NTHBRoutesHandler implements IRoutes
     {
         $admin_dashboard_routes = $this->get_admin_dashboard_routes();
         $admin_category_routes = $this->get_admin_category_routes();
+        $admin_tag_routes = $this->get_admin_tag_routes();
         
-        return $admin_dashboard_routes + $admin_category_routes;
+        return $admin_dashboard_routes + $admin_category_routes + $admin_tag_routes;
     }
     
     public function get_admin_dashboard_routes(): array
@@ -64,6 +78,20 @@ class NTHBRoutesHandler implements IRoutes
 
         return [
             '/admin/category' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'index'
+                ]
+            ]
+        ];
+    }
+
+    public function get_admin_tag_routes(): array
+    {
+        $controller = new AdminTagController($this->admin_tag_model);
+
+        return [
+            '/admin/tag' => [
                 'GET' => [
                     'controller' => $controller,
                     'action' => 'index'

@@ -148,7 +148,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a href="#" class="nav-link">
+                                <a href="/admin/tag" class="nav-link <?= "/admin/tag" == $route ? 'active' : '' ?>">
                                     <i class="far fa-circle nav-icon"></i>
                                     <p>Tag</p>
                                 </a>
