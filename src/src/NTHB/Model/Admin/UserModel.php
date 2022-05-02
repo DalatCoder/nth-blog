@@ -31,6 +31,11 @@ class UserModel
         $results = $this->user_table_helper->find(UserEntity::KEY_EMAIL, $email);
         return count($results) == 0 ? null : $results[0];
     }
+    
+    public function get_by_id($id)
+    {
+        return $this->user_table_helper->findById($id);
+    }
 
     /**
      * @throws Exception
