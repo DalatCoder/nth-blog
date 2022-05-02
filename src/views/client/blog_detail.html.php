@@ -16,6 +16,32 @@
         </div>
     </article>
 
+    <div class="" style="margin-top: 5rem; margin-bottom: 3rem">
+        <?php $author = $post->get_author(); ?>
+        <?php if ($author instanceof \NTHB\Entity\UserEntity): ?>
+        <?php 
+            $author_created_date = $author->get_created_at();
+            $month = $author_created_date->format('F');
+            $date = $author_created_date->format('d');
+            $year = $author_created_date->format('Y');
+        ?>
+        
+        <h3 style="margin-bottom: 3rem">Về tác giả</h3>
+        <ul class="comments-reply">
+            <li>
+                <figure>
+                    <img src="/static/avana/images/blog-images/image-2.jpg" alt="" class="img-responsive"/>
+                </figure>
+                <section>
+                    <h4><?= $author->last_name . ' ' . $author->first_name ?> <a href="#"></a></h4>
+                    <div class="date-pan">Ngày tham gia: <?= $month ?> <?= $date ?>, <?= $year ?></div>
+                    <?= $author->{\NTHB\Entity\UserEntity::KEY_INTRO} ?>
+                </section>
+            </li>    
+        </ul>
+        <?php endif; ?>
+        
+    </div>
 
     <!-- Comments -->
 
