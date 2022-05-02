@@ -2,6 +2,8 @@
 
 namespace Ninja;
 
+use Exception;
+
 class DatabaseTable
 {
     const FETCH_RAW_MULTIPLE = 0;
@@ -18,8 +20,9 @@ class DatabaseTable
         string $table,
         string $primaryKey,
         string $className = '\stdClass',
-        array $constructorArgs = []
-    ) {
+        array  $constructorArgs = []
+    )
+    {
 
         $this->init_database();
 
@@ -33,7 +36,7 @@ class DatabaseTable
     {
         return $this->pdo;
     }
-    
+
     public function init_database()
     {
         $db_name = NJConfiguration::get('db_name') ?? null;
@@ -160,25 +163,30 @@ class DatabaseTable
         $this->query($sql, $fields);
     }
 
-    public function save($record)
+    /**
+     * @throws Exception
+     */
+    public function save($record, $is_update = false)
     {
         $entity = new $this->className(...$this->constructorArgs);
 
         try {
-            if (!array_key_exists($this->primaryKey, $record)) {
-                $record[$this->primaryKey] = null;
+            if ($is_update) {
+                $this->update($record);
+
+                if (!array_key_exists($this->primaryKey, $record)) {
+                    throw new NinjaException('Vui lòng thêm thuộc tính ' . $this->primaryKey . ' vào đối tượng cập nhật');
+                }
+            } else {
+                $insertId = $this->insert($record);
+
+                $primaryKeyColumn = $this->primaryKey;
+                $entity->$primaryKeyColumn = $insertId;
             }
 
-            if ($record[$this->primaryKey] == '') {
-                $record[$this->primaryKey] = null;
-            }
-
-            $insertId = $this->insert($record);
-
-            $primaryKeyColumn = $this->primaryKey;
-            $entity->$primaryKeyColumn = $insertId;
-        } catch (\PDOException $e) {
-            $this->update($record);
+        } catch (Exception $e) {
+            error_log(print_r($e, true));
+            throw $e;
         }
 
         foreach ($record as $key => $value) {
@@ -199,13 +207,13 @@ class DatabaseTable
 
         $this->query($sql, $parameters);
     }
-    
+
     public function deleteAll()
     {
         $sql = "TRUNCATE TABLE `{$this->table}`";
         $this->query($sql);
     }
-    
+
     public function deleteWhere($column, $value)
     {
         $query = "DELETE FROM `{$this->table}` WHERE `$column` = :value";
@@ -216,17 +224,17 @@ class DatabaseTable
 
         $query = $this->query($query, $parameters);
     }
-    
+
     public function raw($sql, $type = null)
     {
         $query = $this->query($sql);
 
         if ($type == self::FETCH_RAW_MULTIPLE)
             return $query->fetchAll(\PDO::FETCH_CLASS, $this->className, $this->constructorArgs);
-        
+
         if ($type == self::FETCH_RAW_SINGLE)
             return $query->fetchObject($this->className, $this->constructorArgs);
-        
+
         if ($type == self::FETCH_ASSOC_SINGLE)
             return $query->fetch();
 
