@@ -16,6 +16,7 @@ use NTHB\Controller\Admin\CommentController;
 use NTHB\Controller\AuthController;
 use NTHB\Controller\Client\AboutController;
 use NTHB\Controller\Client\BlogController;
+use NTHB\Controller\Client\ContactController;
 use NTHB\Controller\Client\HomeController;
 use NTHB\Controller\Admin\UserController;
 use NTHB\Controller\NTHBBaseController;
@@ -324,6 +325,7 @@ class NTHBRoutesHandler implements IRoutes
         $home_controller = new HomeController();
         $blog_controller = new BlogController($this->admin_post_model);
         $about_controller = new AboutController();
+        $contact_controller = new ContactController();
 
         return [
             '/' => [
@@ -348,6 +350,12 @@ class NTHBRoutesHandler implements IRoutes
                 'GET' => [
                     'controller' => $about_controller,
                     'action' => 'render_about_page'
+                ]
+            ],
+            '/contact' => [
+                'GET' => [
+                    'controller' => $contact_controller,
+                    'action' => 'render_contact_page'
                 ]
             ]
         ];
