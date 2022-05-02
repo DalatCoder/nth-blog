@@ -205,6 +205,12 @@ class NTHBRoutesHandler implements IRoutes
                     'controller' => $controller,
                     'action' => 'index'
                 ]
+            ],
+            '/admin/author/create' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'create'
+                ]
             ]
         ];
     }

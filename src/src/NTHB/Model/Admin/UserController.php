@@ -18,4 +18,11 @@ class UserController extends NTHBBaseController
             'users' => []
         ]);
     }
+    
+    public function create()
+    {
+        $this->view_handler->render('admin/user/create.html.php', [
+            'page_title' => 'Thêm tác giả mới'
+        ]);
+    }
 }
