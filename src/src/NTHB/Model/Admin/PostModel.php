@@ -21,6 +21,11 @@ class PostModel
         return $this->post_table_helper->findAll($orderBy, $orderDirection, $limit, $offset);
     }
 
+    public function get_all_published($orderBy = null, $orderDirection = null, $limit = null, $offset = null)
+    {
+        return $this->post_table_helper->find(PostEntity::KEY_PUBLISHED_AT, null, 'is not', $orderBy, $orderDirection, $limit, $offset);
+    }
+
     public function count()
     {
         return $this->post_table_helper->total();

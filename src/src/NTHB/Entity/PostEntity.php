@@ -29,14 +29,17 @@ class PostEntity
     
     protected $post_category_model;
     protected $post_tag_model;
+    protected $media_model;
     
     protected $categories;
     protected $tags;
+    protected $cover_image;
     
-    public function __construct($post_category_model, $post_tag_model)
+    public function __construct($post_category_model, $post_tag_model, $media_model)
     {
         $this->post_category_model = $post_category_model;
         $this->post_tag_model = $post_tag_model;
+        $this->media_model = $media_model;
     }
     
     public function fetch_categories()
@@ -71,5 +74,32 @@ class PostEntity
     public function add_tag($tag_id)
     {
         return $this->post_tag_model->create($this->{self::KEY_ID}, $tag_id);
+    }
+    
+    public function get_published_date(): \DateTime
+    {
+        return \DateTime::createFromFormat('Y-m-d H:i:s', $this->{self::KEY_PUBLISHED_AT});
+    }
+    
+    public function get_cover_image()
+    {
+        if (is_null($this->{self::KEY_COVER_IMAGE_ID}))
+            return null;
+        
+        if (!$this->cover_image) {
+            $this->cover_image = $this->media_model->get_by_id($this->{self::KEY_COVER_IMAGE_ID});
+        }
+
+        return $this->tags;
+    }
+    
+    public function get_cover_image_path(): string
+    {
+        $this->get_cover_image();
+        
+        if (is_null($this->cover_image))
+            return 'default.jpg';
+        
+        return $this->cover_image->{MediaEntity::KEY_FILE_LOCATION};
     }
 }

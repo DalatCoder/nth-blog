@@ -11,6 +11,7 @@ use NTHB\Controller\Admin\AdminCategoryController;
 use NTHB\Controller\Admin\AdminDashboardController;
 use NTHB\Controller\Admin\AdminPostController;
 use NTHB\Controller\Admin\AdminTagController;
+use NTHB\Controller\Client\BlogController;
 use NTHB\Controller\Client\HomeController;
 use NTHB\Entity\CategoryEntity;
 use NTHB\Entity\MediaEntity;
@@ -67,7 +68,8 @@ class NTHBRoutesHandler implements IRoutes
             PostEntity::CLASS_NAME,
             [
                 &$this->admin_post_category_model,
-                &$this->admin_post_tag_model
+                &$this->admin_post_tag_model,
+                &$this->admin_media_model
             ]
         );
         $this->admin_post_model = new PostModel($this->admin_post_table_helper);
@@ -186,12 +188,19 @@ class NTHBRoutesHandler implements IRoutes
     public function get_client_routes(): array
     {
         $home_controller = new HomeController();
+        $blog_controller = new BlogController($this->admin_post_model);
         
         return [
             '/' => [
                 'GET' => [
                     'controller' => $home_controller,
                     'action' => 'render_home_page'
+                ]
+            ],
+            '/blog' => [
+                'GET' => [
+                    'controller' => $blog_controller,
+                    'action' => 'render_blog_page'
                 ]
             ]
         ];
