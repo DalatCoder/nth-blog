@@ -20,12 +20,21 @@ class Authentication
         $this->passwordColumn = $passwordColumn;
     }
 
+    /**
+     * @throws NinjaException
+     */
     public function login($username, $password)
     {
+        if (empty($username))
+            throw new NinjaException("Vui lòng nhập giá trị cho $this->usernameColumn");
+        
+        if (empty($password))
+            throw new NinjaException("Vui lòng nhập giá trị cho $this->passwordColumn");
+
         $user = $this->users->find($this->usernameColumn, strtolower($username));
         
         if (empty($user))
-            return false;
+            throw new NinjaException('TK Thông tin đăng nhập không hợp lệ');
 
         $passwordColumn = $this->passwordColumn;
         
@@ -33,13 +42,13 @@ class Authentication
          * Hashed password
          */
         if (!password_verify($password, $user[0]->$passwordColumn))
-            return false;
+            throw new NinjaException('Thông tin đăng nhập không hợp lệ');
         
         session_regenerate_id();
         $_SESSION['username'] = $username;
         $_SESSION['password'] = $user[0]->$passwordColumn;
 
-        return true;
+        return $user;
     }
 
     public function logout()
