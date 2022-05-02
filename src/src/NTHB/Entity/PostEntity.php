@@ -29,18 +29,21 @@ class PostEntity
     protected $post_tag_model;
     protected $media_model;
     protected $user_model;
+    protected $comment_model;
     
     protected $categories;
     protected $tags;
     protected $cover_image;
     protected $author;
+    protected $comments;
     
-    public function __construct($post_category_model, $post_tag_model, $media_model, $user_model)
+    public function __construct($post_category_model, $post_tag_model, $media_model, $user_model, $comment_model)
     {
         $this->post_category_model = $post_category_model;
         $this->post_tag_model = $post_tag_model;
         $this->media_model = $media_model;
         $this->user_model = $user_model;
+        $this->comment_model = $comment_model;
     }
     
     public function fetch_categories()
@@ -59,6 +62,15 @@ class PostEntity
         }
 
         return $this->tags;
+    }
+
+    public function fetch_comments()
+    {
+        if (!is_array($this->comments)) {
+            $this->comments = $this->comment_model->get_all_accepted_by_post($this->{self::KEY_ID});
+        }
+
+        return $this->comments;
     }
 
     /**
