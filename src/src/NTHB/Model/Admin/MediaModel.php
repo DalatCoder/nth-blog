@@ -19,6 +19,11 @@ class MediaModel
     {
         return $this->media_table_helper->findAll($orderBy, $orderDirection, $limit, $offset);
     }
+    
+    public function get_by_id($id)
+    {
+        return $this->media_table_helper->findById($id);
+    }
 
     public function count()
     {
