@@ -70,9 +70,9 @@ class DatabaseTable
         return $result->fetchAll(\PDO::FETCH_CLASS, $this->className, $this->constructorArgs);
     }
 
-    public function find($column, $value, $orderBy = null, $orderDirection = null, $limit = null, $offset = null)
+    public function find($column, $value, $operator = '=', $orderBy = null, $orderDirection = null, $limit = null, $offset = null)
     {
-        $sql = "SELECT * FROM `{$this->table}` WHERE `$column` = :value";
+        $sql = "SELECT * FROM `{$this->table}` WHERE `$column` {$operator} :value";
 
         if ($orderBy != null && $orderDirection != null) {
             $sql .= " ORDER BY `{$orderBy}` {$orderDirection}";
