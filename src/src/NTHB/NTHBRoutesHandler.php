@@ -13,12 +13,16 @@ use NTHB\Controller\Admin\AdminPostController;
 use NTHB\Controller\Admin\AdminTagController;
 use NTHB\Entity\CategoryEntity;
 use NTHB\Entity\MediaEntity;
+use NTHB\Entity\Pivot\PostCategoryEntity;
+use NTHB\Entity\Pivot\PostTagEntity;
 use NTHB\Entity\PostEntity;
 use NTHB\Entity\TagEntity;
 use NTHB\Model\Admin\CategoryModel;
 use NTHB\Model\Admin\MediaModel;
 use NTHB\Model\Admin\PostModel;
 use NTHB\Model\Admin\TagModel;
+use NTHB\Model\Admin\Pivot\PostCategoryModel;
+use NTHB\Model\Admin\Pivot\PostTagModel;
 
 class NTHBRoutesHandler implements IRoutes
 {
@@ -33,6 +37,12 @@ class NTHBRoutesHandler implements IRoutes
     
     private $admin_media_table_helper;
     private $admin_media_model;
+    
+    private $admin_post_category_table_helper;
+    private $admin_post_category_model;
+    
+    private $admin_post_tag_table_helper;
+    private $admin_post_tag_model;
     
     public function __construct()
     {
@@ -53,7 +63,11 @@ class NTHBRoutesHandler implements IRoutes
         $this->admin_post_table_helper = new DatabaseTable(
             PostEntity::TABLE,
             PostEntity::PRIMARY_KEY,
-            PostEntity::CLASS_NAME
+            PostEntity::CLASS_NAME,
+            [
+                &$this->admin_post_category_model,
+                &$this->admin_post_tag_model
+            ]
         );
         $this->admin_post_model = new PostModel($this->admin_post_table_helper);
         
@@ -63,6 +77,20 @@ class NTHBRoutesHandler implements IRoutes
             MediaEntity::CLASS_NAME
         );
         $this->admin_media_model = new MediaModel($this->admin_media_table_helper);
+        
+        $this->admin_post_category_table_helper = new DatabaseTable(
+            PostCategoryEntity::TABLE,
+            PostCategoryEntity::PRIMARY_KEY,
+            PostCategoryEntity::CLASS_NAME
+        );
+        $this->admin_post_category_model = new PostCategoryModel($this->admin_post_category_table_helper, $this->admin_category_table_helper);
+        
+        $this->admin_post_tag_table_helper = new DatabaseTable(
+            PostTagEntity::TABLE,
+            PostTagEntity::PRIMARY_KEY,
+            PostTagEntity::CLASS_NAME
+        );
+        $this->admin_post_tag_model = new PostTagModel($this->admin_post_tag_table_helper, $this->admin_tag_table_helper);
     }
 
     public function getRoutes(): array
@@ -143,6 +171,10 @@ class NTHBRoutesHandler implements IRoutes
                 'GET' => [
                     'controller' => $controller,
                     'action' => 'create'
+                ],
+                'POST' => [
+                    'controller' => $controller,
+                    'action' => 'store'
                 ]
             ]
         ];

@@ -96,6 +96,38 @@ class DatabaseTable
         return $query->fetchAll(\PDO::FETCH_CLASS, $this->className, $this->constructorArgs);
     }
 
+    public function findIn($column, $values = [], $orderBy = null, $orderDirection = null, $limit = null, $offset = null)
+    {
+        $sql = "SELECT * FROM `{$this->table}` WHERE `$column` IN (:value)";
+
+        if ($orderBy != null && $orderDirection != null) {
+            $sql .= " ORDER BY `{$orderBy}` {$orderDirection}";
+        }
+
+        if ($limit != null) {
+            $sql .= " LIMIT {$limit}";
+        }
+
+        if ($offset != null) {
+            $sql .= " OFFSET {$offset}";
+        }
+
+        $value_str = '';
+        foreach ($values as $value) {
+            $value_str .= "'${value}',";
+        }
+        $value_str = rtrim($value_str, ",");
+        
+        $parameters = [
+            'value' => $value_str
+        ];
+        $parameters = $this->processDate($parameters);
+
+        $query = $this->query($sql, $parameters);
+
+        return $query->fetchAll(\PDO::FETCH_CLASS, $this->className, $this->constructorArgs);
+    }
+
 
     public function findById($value)
     {

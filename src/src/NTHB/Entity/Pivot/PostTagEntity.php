@@ -6,7 +6,7 @@ class PostTagEntity
 {
     const PRIMARY_KEY = 'id';
     const TABLE = 'post_tag';
-    const CLASS_NAME = '\\NTHB\\Entity\\PostTagEntity';
+    const CLASS_NAME = '\\NTHB\\Entity\\Pivot\\PostTagEntity';
     
     const KEY_ID = 'id';
     const KEY_POST_ID = 'post_id';

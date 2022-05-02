@@ -6,7 +6,7 @@ class PostCategoryEntity
 {
     const PRIMARY_KEY = 'id';
     const TABLE = 'post_category';
-    const CLASS_NAME = '\\NTHB\\Entity\\PostCategoryEntity';
+    const CLASS_NAME = '\\NTHB\\Entity\\Pivot\\PostCategoryEntity';
 
     const KEY_ID = 'id';
     const KEY_POST_ID = 'post_id';

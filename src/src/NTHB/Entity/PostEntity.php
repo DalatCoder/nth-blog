@@ -2,6 +2,10 @@
 
 namespace NTHB\Entity;
 
+use Exception;
+use NTHB\Model\Pivot\PostCategoryModel;
+use NTHB\Model\Pivot\PostTagModel;
+
 class PostEntity
 {
     const PRIMARY_KEY = 'id';
@@ -22,4 +26,50 @@ class PostEntity
     const KEY_CREATED_AT = 'created_at';
     const KEY_UPDATED_AT = 'updated_at';
     const KEY_DELETED_AT = 'deleted_at';
+    
+    protected $post_category_model;
+    protected $post_tag_model;
+    
+    protected $categories;
+    protected $tags;
+    
+    public function __construct($post_category_model, $post_tag_model)
+    {
+        $this->post_category_model = $post_category_model;
+        $this->post_tag_model = $post_tag_model;
+    }
+    
+    public function fetch_categories()
+    {
+        if (!is_array($this->categories)) {
+            $this->categories = $this->post_category_model->get_by_post_id($this->{self::KEY_ID});
+        }
+        
+        return $this->categories;
+    }
+
+    public function fetch_tags()
+    {
+        if (!is_array($this->tags)) {
+            $this->tags = $this->post_tag_model->get_by_post_id($this->{self::KEY_ID});
+        }
+
+        return $this->tags;
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function add_category($category_id)
+    {
+        return $this->post_category_model->create($this->{self::KEY_ID}, $category_id);
+    }
+
+    /**
+     * @throws Exception
+     */
+    public function add_tag($tag_id)
+    {
+        return $this->post_tag_model->create($this->{self::KEY_ID}, $tag_id);
+    }
 }

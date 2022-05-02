@@ -2,7 +2,10 @@
 
 namespace NTHB\Controller\Admin;
 
+use Exception;
+use Ninja\NinjaException;
 use NTHB\Controller\NTHBBaseController;
+use NTHB\Entity\PostEntity;
 use NTHB\Model\Admin\CategoryModel;
 use NTHB\Model\Admin\MediaModel;
 use NTHB\Model\Admin\PostModel;
@@ -39,11 +42,57 @@ class AdminPostController extends NTHBBaseController
         $categories = $this->category_model->get_all();
         $tags = $this->tag_model->get_all();
         $medias = $this->media_model->get_all();
+        $posts = $this->post_model->get_all();
         
         $this->view_handler->render('admin/post/create.html.php', [
             'categories' => $categories,
             'tags' => $tags,
-            'medias' => $medias
+            'medias' => $medias,
+            'posts' => $posts
         ]);
+    }
+    
+    public function store()
+    {
+        try {
+            $author_id = 1;
+            $parent_id = $_POST['parent-id'] ?? 0;
+            $title = $_POST['title'] ?? '';
+            $meta_title = $_POST['meta-title'] ?? '';
+            $summary = $_POST['summary'] ?? '';
+            $content = $_POST['content'] ?? '';
+            $cover_image_id = $_POST['cover_image'] ?? null;
+            
+            $published_at = null;
+            if (isset($_POST['published']) && $_POST['published'] == 'published') {
+                $published_at = date('Y-m-d H:i:s');
+            }
+            
+            $new_post = $this->post_model->create($author_id, $parent_id, $title, $meta_title, $summary, $content, $cover_image_id, $published_at);
+            
+            if (!($new_post instanceof PostEntity)) {
+                throw new NinjaException('Có lỗi trong quá trình tạo post, thử lại sau');
+            }
+
+            $categories = $_POST['categories'] ?? [];
+            $tags = $_POST['tags'] ?? [];
+
+            foreach ($categories as $category) {
+                $new_post->add_category($category);
+            }
+
+            foreach ($tags as $tag) {
+                $new_post->add_tag($tag);
+            }
+            
+            $this->route_redirect('/admin/post');
+        }
+        catch (NinjaException $exception) {
+            die(print_r($exception, true));
+        }
+        catch (Exception $exception) {
+            error_log(print_r($exception, true));
+            die(print_r($exception, true));
+        }
     }
 }

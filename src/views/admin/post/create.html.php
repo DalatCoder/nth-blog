@@ -41,8 +41,11 @@
 <section class="content">
     <div class="row">
         <div class="col-12 mb-3 d-flex justify-content-end">
-            <button class="btn btn-secondary mr-4">Lưu nháp</button>
-            <button class="btn btn-primary">Xuất bản</button>
+            <form action="/admin/post/create" method="POST" id="post-form">
+                <input type="hidden" name="cover_image" id="cover_image">
+                <button type="submit" name="save_draft" class="btn btn-secondary mr-4" value="save_draft">Lưu nháp</button>
+                <button type="submit" name="published" class="btn btn-primary" value="published">Xuất bản</button>
+            </form>
         </div>
         
         <div class="col-lg-8">
@@ -59,15 +62,24 @@
                 <div class="card-body" style="display: block;">
                     <div class="form-group">
                         <label for="title">Tiêu đề *</label>
-                        <input type="text" id="title" class="form-control">
+                        <input type="text" id="title" class="form-control" name="title" form="post-form">
                     </div>
                     <div class="form-group">
                         <label for="meta-title">SEO Meta</label>
-                        <input type="text" id="meta-title" class="form-control">
+                        <input type="text" id="meta-title" class="form-control" name="meta-title" form="post-form">
                     </div>
                     <div class="form-group">
                         <label for="summary">Tóm tắt</label>
-                        <textarea id="summary" class="form-control" rows="4"></textarea>
+                        <textarea id="summary" class="form-control" rows="4" name="summary" form="post-form"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="parent-id">Thuộc seri bài viết</label>
+                        <select id="parent-id" class="form-control select2 parent-id-select2" style="width: 100%;" name="parent-id" form="post-form">
+                            <option value="0">Chọn bài viết cha</option>
+                            <?php foreach ($posts as $post): ?>
+                                <option value="<?= $post->{\NTHB\Entity\PostEntity::KEY_ID} ?>"><?= $post->{\NTHB\Entity\PostEntity::KEY_TITLE} ?></option>
+                            <?php endforeach; ?>
+                        </select>
                     </div>
                 </div>
                 <!-- /.card-body -->
@@ -88,7 +100,15 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label for="categories">Chọn thể loại *</label>
-                        <select class="categories-select2" id="categories" multiple="multiple" data-placeholder="Chọn 1 hoặc nhiều thể loại" style="width: 100%;">
+                        <select 
+                            class="categories-select2" 
+                            id="categories" 
+                            multiple="multiple"
+                            data-placeholder="Chọn 1 hoặc nhiều thể loại" 
+                            style="width: 100%;"
+                            name="categories[]"
+                            form="post-form"
+                        >
                             <?php foreach ($categories as $category): ?>
                                 <option value="<?= $category->{\NTHB\Entity\CategoryEntity::KEY_ID} ?>"><?= $category->{\NTHB\Entity\CategoryEntity::KEY_TITLE} ?></option>
                             <?php endforeach; ?>
@@ -119,7 +139,15 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label for="tags">Chọn thẻ</label>
-                        <select class="tags-select2" id="tags" multiple="multiple" data-placeholder="Chọn 1 hoặc nhiều thẻ" style="width: 100%;">
+                        <select 
+                            class="tags-select2" 
+                            id="tags" 
+                            multiple="multiple" 
+                            data-placeholder="Chọn 1 hoặc nhiều thẻ" 
+                            style="width: 100%;"
+                            name="tags[]"
+                            form="post-form"
+                        >
                             <?php foreach ($tags as $tag): ?>
                                 <option value="<?= $tag->{\NTHB\Entity\TagEntity::KEY_ID} ?>"><?= $tag->{\NTHB\Entity\TagEntity::KEY_TITLE} ?></option>
                             <?php endforeach; ?>
@@ -148,7 +176,7 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <textarea id="summernote"></textarea>
+                    <textarea id="summernote" name="content" form="post-form"></textarea>
                 </div>
                 <div class="card-footer">
                     Truy cập <a href="https://github.com/summernote/summernote/" target="_blank">Summernote</a> để xem
@@ -184,11 +212,6 @@
                 </div>
             </div>
         </div>
-
-        <div class="col-12 mb-3 d-flex justify-content-end">
-            <button class="btn btn-secondary mr-4">Lưu nháp</button>
-            <button class="btn btn-primary">Xuất bản</button>
-        </div>
     </div>
 
 </section>
@@ -217,6 +240,7 @@
         //Initialize Select2 Elements
         $('.categories-select2').select2()
         $('.tags-select2').select2()
+        $('.parent-id-select2').select2()
         
         function uploadFile(file, onSuccess, onError) {
             const data = new FormData()
@@ -290,7 +314,8 @@
             newTagInput: document.getElementById('new-tag'),
             newTagButton: document.getElementById('new-tag-button'),
             galleryBody: document.getElementById('gallery-body'),
-            selectedCoverImageText: document.getElementById('selected-cover-image-text')
+            selectedCoverImageText: document.getElementById('selected-cover-image-text'),
+            postForm: document.getElementById('post-form'),
         }
         
         DOMSelect.newCategoryButton.addEventListener('click', function (e) {
@@ -381,6 +406,7 @@
             const mediaPath = $(this).attr('href');
             
             DOMSelect.selectedCoverImageText.querySelector('strong').innerHTML = mediaName + ' @ ' + mediaPath;
+            DOMSelect.postForm.querySelector('#cover_image').value = mediaID;
             
             $(this).ekkoLightbox({
                 alwaysShowClose: true
