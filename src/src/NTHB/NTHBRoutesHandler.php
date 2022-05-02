@@ -14,6 +14,7 @@ use NTHB\Controller\Admin\AdminPostController;
 use NTHB\Controller\Admin\AdminTagController;
 use NTHB\Controller\Admin\CommentController;
 use NTHB\Controller\AuthController;
+use NTHB\Controller\Client\AboutController;
 use NTHB\Controller\Client\BlogController;
 use NTHB\Controller\Client\HomeController;
 use NTHB\Controller\Admin\UserController;
@@ -322,6 +323,7 @@ class NTHBRoutesHandler implements IRoutes
     {
         $home_controller = new HomeController();
         $blog_controller = new BlogController($this->admin_post_model);
+        $about_controller = new AboutController();
 
         return [
             '/' => [
@@ -340,6 +342,12 @@ class NTHBRoutesHandler implements IRoutes
                 'GET' => [
                     'controller' => $blog_controller,
                     'action' => 'render_blog_detail_page'
+                ]
+            ],
+            '/about' => [
+                'GET' => [
+                    'controller' => $about_controller,
+                    'action' => 'render_about_page'
                 ]
             ]
         ];
