@@ -197,8 +197,3 @@
     <div class="clearfix"></div>
 </div>
 {% endblock %}
-
-{% block custom_scripts %}
-<script src="/static/avana/js/nav.js" type="text/javascript"></script>
-<script src="/static/avana/js/effects/AnimOnScroll.js" type="text/javascript"></script>
-{% endblock %}
