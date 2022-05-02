@@ -16,6 +16,7 @@ use NTHB\Controller\AuthController;
 use NTHB\Controller\Client\BlogController;
 use NTHB\Controller\Client\HomeController;
 use NTHB\Controller\Admin\UserController;
+use NTHB\Controller\NTHBBaseController;
 use NTHB\Entity\CategoryEntity;
 use NTHB\Entity\MediaEntity;
 use NTHB\Entity\Pivot\PostCategoryEntity;
@@ -345,5 +346,10 @@ class NTHBRoutesHandler implements IRoutes
         }
 
         return $results;
+    }
+    
+    public function getBaseController(): NTHBBaseController
+    {
+        return new NTHBBaseController();
     }
 }
