@@ -11,6 +11,7 @@ use NTHB\Controller\Admin\AdminCategoryController;
 use NTHB\Controller\Admin\AdminDashboardController;
 use NTHB\Controller\Admin\AdminPostController;
 use NTHB\Controller\Admin\AdminTagController;
+use NTHB\Controller\AuthController;
 use NTHB\Controller\Client\BlogController;
 use NTHB\Controller\Client\HomeController;
 use NTHB\Entity\CategoryEntity;
@@ -110,10 +111,16 @@ class NTHBRoutesHandler implements IRoutes
         $admin_category_routes = $this->get_admin_category_routes();
         $admin_tag_routes = $this->get_admin_tag_routes();
         $admin_post_routes = $this->get_admin_post_routes();
-        
+
+        $auth_routes = $this->get_auth_routes();
         $client_routes = $this->get_client_routes();
         
-        return $admin_dashboard_routes + $admin_category_routes + $admin_tag_routes + $admin_post_routes + $client_routes;
+        return $admin_dashboard_routes + 
+            $admin_category_routes + 
+            $admin_tag_routes + 
+            $admin_post_routes + 
+            $auth_routes +
+            $client_routes;
     }
     
     public function get_admin_dashboard_routes(): array
@@ -180,6 +187,20 @@ class NTHBRoutesHandler implements IRoutes
                 'POST' => [
                     'controller' => $controller,
                     'action' => 'store'
+                ]
+            ]
+        ];
+    }
+    
+    public function get_auth_routes(): array
+    {
+        $controller = new AuthController();
+        
+        return [
+            '/auth/login' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'render_login_page'
                 ]
             ]
         ];
