@@ -9,6 +9,8 @@
 <!-- Select2 -->
 <link rel="stylesheet" href="/static/admin-lte/plugins/select2/css/select2.min.css">
 <link rel="stylesheet" href="/static/admin-lte/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
+<!-- SweetAlert2 -->
+<link rel="stylesheet" href="/static/admin-lte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css">
 {% endblock %}
 
 {% block content_header %}
@@ -194,6 +196,8 @@
 <script src="/static/admin-lte/plugins/codemirror/mode/htmlmixed/htmlmixed.js"></script>
 <!-- Select2 -->
 <script src="/static/admin-lte/plugins/select2/js/select2.full.min.js"></script>
+<!--SweeetAlert-->
+<script src="/static/admin-lte/plugins/sweetalert2/sweetalert2.min.js"></script>
 
 <script>
     $(function () {
@@ -243,6 +247,100 @@
                     })
                 }
             },
+        })
+
+        const Toast = Swal.mixin({
+            toast: true,
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 3000
+        })
+
+        const DOMSelect = {
+            newCategoryInput: document.getElementById('new-category'),
+            newCategoryButton: document.getElementById('new-category-button'),
+            newTagInput: document.getElementById('new-tag'),
+            newTagButton: document.getElementById('new-tag-button')
+        }
+        
+        DOMSelect.newCategoryButton.addEventListener('click', function (e) {
+            e.preventDefault()
+
+            const data = {
+                title: DOMSelect.newCategoryInput.value,
+                metaTitle: '',
+                slug: '',
+                content: ''
+            }
+
+            fetch('/api/v1/category', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        Toast.fire({
+                            icon: 'success',
+                            title: data.msg
+                        })
+
+                        DOMSelect.newCategoryInput.value = ''
+                        
+                        const newCategory = data.data
+                        const newOption = new Option(newCategory.title, newCategory.id, true, true);
+                        $('.categories-select2').append(newOption).trigger('change');
+                    }
+                    else {
+                        Toast.fire({
+                            icon: 'error',
+                            title: data.msg
+                        })
+                    }
+                })
+        })
+
+        DOMSelect.newTagButton.addEventListener('click', function (e) {
+            e.preventDefault()
+
+            const data = {
+                title: DOMSelect.newTagInput.value,
+                metaTitle: '',
+                slug: '',
+                content: ''
+            }
+
+            fetch('/api/v1/tag', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        Toast.fire({
+                            icon: 'success',
+                            title: data.msg
+                        })
+
+                        DOMSelect.newTagInput.value = ''
+
+                        const newTag = data.data
+                        const newOption = new Option(newTag.title, newTag.id, true, true);
+                        $('.tags-select2').append(newOption).trigger('change');
+                    }
+                    else {
+                        Toast.fire({
+                            icon: 'error',
+                            title: data.msg
+                        })
+                    }
+                })
         })
     })
 </script>
