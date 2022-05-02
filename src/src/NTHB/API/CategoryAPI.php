@@ -27,7 +27,6 @@ class CategoryAPI
             $content = $request_helper->get('content');
             
             if (empty($title)) throw new NinjaException('Tiêu đề không được để trống');
-            if (empty($slug)) throw new NinjaException('Slug không được để trống');
             
             $category = $this->category_model->create($title, $meta_title, $slug, $content);
             ResponseHelper::getInstance()->createdSuccess($category, 'Tạo thể loại mới thành công');
