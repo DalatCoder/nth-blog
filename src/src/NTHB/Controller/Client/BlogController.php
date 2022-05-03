@@ -44,6 +44,7 @@ class BlogController extends NTHBBaseController
         
         $this->view_handler->render('client/blog_detail.html.php', [
             'post' => $post,
+            'page_sub_title' => $post->{PostEntity::KEY_TITLE},
             'comments' => $comments
         ]);
     }
