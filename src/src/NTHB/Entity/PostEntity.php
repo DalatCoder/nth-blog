@@ -67,7 +67,7 @@ class PostEntity
     public function fetch_comments()
     {
         if (!is_array($this->comments)) {
-            $this->comments = $this->comment_model->get_all_accepted_by_post($this->{self::KEY_ID});
+            $this->comments = $this->comment_model->get_all_by_post($this->{self::KEY_ID});
         }
 
         return $this->comments;
