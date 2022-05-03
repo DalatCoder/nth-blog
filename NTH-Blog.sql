@@ -3,7 +3,7 @@ CREATE TABLE `user` (
   `first_name` varchar(32),
   `last_name` varchar(128),
   `email` varchar(64),
-  `password` varchar(32),
+  `password` varchar(128),
   `intro` tinytext,
   `profile` text,
   `created_at` datetime NOT NULL DEFAULT (now()),
@@ -39,7 +39,7 @@ CREATE TABLE `tag` (
 );
 
 CREATE TABLE `post_tag` (
-  `id` bigint PRIMARY KEY,
+  `id` bigint PRIMARY KEY AUTO_INCREMENT,
   `post_id` bigint,
   `tag_id` bigint
 );
@@ -56,7 +56,7 @@ CREATE TABLE `category` (
 );
 
 CREATE TABLE `post_category` (
-  `id` bigint PRIMARY KEY,
+  `id` bigint PRIMARY KEY AUTO_INCREMENT,
   `post_id` bigint,
   `category_id` bigint
 );
@@ -125,3 +125,5 @@ CREATE INDEX `post_comment_index_11` ON `post_comment` (`email`);
 CREATE INDEX `post_meta_index_12` ON `post_meta` (`post_id`);
 
 CREATE INDEX `post_meta_index_13` ON `post_meta` (`key`);
+
+ALTER TABLE `post` ADD FOREIGN KEY (`deleted_at`) REFERENCES `post` (`summary`);
