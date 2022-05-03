@@ -9,18 +9,19 @@ use Ninja\Utils\NJStringUtils;
 use NTHB\Entity\CategoryEntity;
 use NTHB\Entity\PostEntity;
 use NTHB\Model\Admin\Pivot\PostCategoryModel;
+use NTHB\Model\Admin\Pivot\PostTagModel;
 
 class PostModel
 {
     private DatabaseTable $post_table_helper;
     private PostCategoryModel $post_category_model;
-    private CategoryModel $category_model;
+    private PostTagModel $post_tag_model;
     
-    public function __construct(DatabaseTable $post_table_helper, PostCategoryModel $post_category_model, CategoryModel $category_model)
+    public function __construct(DatabaseTable $post_table_helper, PostCategoryModel $post_category_model, PostTagModel $post_tag_model)
     {
         $this->post_table_helper = $post_table_helper;
         $this->post_category_model = $post_category_model;
-        $this->category_model = $category_model;
+        $this->post_tag_model = $post_tag_model;
     }
     
     public function get_all($orderBy = null, $orderDirection = null, $limit = null, $offset = null)
@@ -33,18 +34,6 @@ class PostModel
         return $this->post_table_helper->find(PostEntity::KEY_PUBLISHED_AT, null, 'is not', $orderBy, $orderDirection, $limit, $offset);
     }
 
-    /**
-     * @throws NinjaException
-     */
-    public function get_all_published_by_category_slug($category_slug, $orderBy = null, $orderDirection = null, $limit = null, $offset = null): array
-    {
-        $category = $this->category_model->get_by_slug($category_slug);
-        if (!$category instanceof CategoryEntity)
-            throw new NinjaException('Thể loại bài viết không tồn tại');
-        
-        return $this->get_all_published_by_category_id($category->{CategoryEntity::KEY_ID});
-    }
-    
     public function get_all_published_by_category_id($category_id, $orderBy = null, $orderDirection = null, $limit = null, $offset = null): array
     {
         $posts = $this->post_category_model->get_by_category_id($category_id);
@@ -56,6 +45,20 @@ class PostModel
                 $results[] = $post;
         }
         
+        return $results;
+    }
+
+    public function get_all_published_by_tag_id($tag_id, $orderBy = null, $orderDirection = null, $limit = null, $offset = null): array
+    {
+        $posts = $this->post_tag_model->get_posts_by_tag_id($tag_id);
+
+        $results = [];
+
+        foreach ($posts as $post) {
+            if (!is_null($post->{PostEntity::KEY_PUBLISHED_AT}))
+                $results[] = $post;
+        }
+
         return $results;
     }
 

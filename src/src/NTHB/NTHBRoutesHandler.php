@@ -123,10 +123,10 @@ class NTHBRoutesHandler implements IRoutes
         $this->admin_category_model = new CategoryModel($this->admin_category_table_helper);
         $this->admin_tag_model = new TagModel($this->admin_tag_table_helper);
         $this->admin_media_model = new MediaModel($this->admin_media_table_helper);
-        $this->admin_post_tag_model = new PostTagModel($this->admin_post_tag_table_helper, $this->admin_tag_table_helper);
+        $this->admin_post_tag_model = new PostTagModel($this->admin_post_tag_table_helper, $this->admin_tag_table_helper, $this->admin_post_table_helper);
         $this->admin_user_model = new UserModel($this->admin_user_table_helper);
         $this->admin_comment_model = new CommentModel($this->admin_comment_table_helper);
-        $this->admin_post_model = new PostModel($this->admin_post_table_helper, $this->admin_post_category_model, $this->admin_category_model);
+        $this->admin_post_model = new PostModel($this->admin_post_table_helper, $this->admin_post_category_model, $this->admin_post_tag_model);
         
         $this->authentication_helper = new Authentication(
             $this->admin_user_table_helper, 
@@ -323,7 +323,7 @@ class NTHBRoutesHandler implements IRoutes
     public function get_client_routes(): array
     {
         $home_controller = new HomeController($this->admin_post_model);
-        $blog_controller = new BlogController($this->admin_post_model, $this->admin_category_model);
+        $blog_controller = new BlogController($this->admin_post_model, $this->admin_category_model, $this->admin_tag_model);
         $about_controller = new AboutController();
         $contact_controller = new ContactController();
 

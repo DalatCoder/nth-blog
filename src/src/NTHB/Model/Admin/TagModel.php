@@ -21,6 +21,17 @@ class TagModel
     {
         return $this->tag_table_helper->findAll($orderBy, $orderDirection, $limit, $offset);
     }
+    
+    public function get_by_id($id)
+    {
+        return $this->tag_table_helper->findById($id);
+    }
+    
+    public function get_by_slug($slug)
+    {
+        $results = $this->tag_table_helper->find(TagEntity::KEY_SLUG, $slug);
+        return count($results) > 0 ? $results[0] : null;
+    }
 
     public function count()
     {

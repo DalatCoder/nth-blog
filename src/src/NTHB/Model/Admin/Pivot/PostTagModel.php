@@ -6,17 +6,20 @@ use Exception;
 use Ninja\DatabaseTable;
 use NTHB\Entity\Pivot\PostCategoryEntity;
 use NTHB\Entity\Pivot\PostTagEntity;
+use NTHB\Entity\PostEntity;
 use NTHB\Entity\TagEntity;
 
 class PostTagModel
 {
     private DatabaseTable $post_tag_table_helper;
     private DatabaseTable $tag_table_helper;
+    private DatabaseTable $post_table_helper;
     
-    public function __construct(DatabaseTable $post_tag_table_helper, DatabaseTable $tag_table_helper)
+    public function __construct(DatabaseTable $post_tag_table_helper, DatabaseTable $tag_table_helper, DatabaseTable $post_table_helper)
     {
         $this->post_tag_table_helper = $post_tag_table_helper;
         $this->tag_table_helper = $tag_table_helper;
+        $this->post_table_helper = $post_table_helper;
     }
 
     public function get_by_post_id($post_id, $orderBy = null, $orderDirection = null, $limit = null, $offset = null)
@@ -47,10 +50,25 @@ class PostTagModel
         );
     }
 
-    public function get_by_tag_id($tag_id, $orderBy = null, $orderDirection = null, $limit = null, $offset = null)
+    public function get_posts_by_tag_id($tag_id, $orderBy = null, $orderDirection = null, $limit = null, $offset = null)
+    {
+        $pairs = $this->get_posts_by_tag_id_raw($tag_id, $orderBy, $orderDirection, $limit, $offset);
+        $post_ids = [];
+
+        foreach ($pairs as $item) {
+            $post_ids[] = $item->{PostTagEntity::KEY_POST_ID};
+        }
+
+        return $this->post_table_helper->findIdIn(
+            PostEntity::KEY_ID,
+            $post_ids
+        );
+    }
+
+    public function get_posts_by_tag_id_raw($tag_id, $orderBy = null, $orderDirection = null, $limit = null, $offset = null)
     {
         return $this->post_tag_table_helper->find(
-            PostCategoryEntity::KEY_CATEGORY_ID,
+            PostTagEntity::KEY_TAG_ID,
             $tag_id,
             '=',
             $orderBy,
