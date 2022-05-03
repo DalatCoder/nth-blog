@@ -55,7 +55,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Tiêu đề</th>
-                                <th>Tóm tắt</th>
+                                <th></th>
                             </tr>
                             </thead>
                             <tbody id="tbody">
@@ -63,10 +63,9 @@
                                 <tr>
                                     <td><?= $post->{\NTHB\Entity\PostEntity::KEY_ID} ?></td>
                                     <td><?= $post->{\NTHB\Entity\PostEntity::KEY_TITLE} ?></td>
-                                    <td><?= $post->{\NTHB\Entity\PostEntity::KEY_SUMMARY} ?></td>
                                     <td class="text-right py-0 align-middle">
                                         <div class="btn-group btn-group-sm">
-                                            <a href="#" class="btn btn-info mr-2"><i class="fas fa-eye"></i></a>
+                                            <a href="/blog/show?post=<?= $post->slug ?>" target="_blank" class="btn btn-info mr-2"><i class="fas fa-eye"></i></a>
                                             <a href="#" class="btn btn-warning mr-2"><i class="fas fa-edit"></i></a>
                                             <a href="#" class="btn btn-danger"><i class="fas fa-trash"></i></a>
                                         </div>
