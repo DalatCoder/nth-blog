@@ -72,50 +72,36 @@ class NTHBRoutesHandler implements IRoutes
             CategoryEntity::PRIMARY_KEY,
             CategoryEntity::CLASS_NAME
         );
-        $this->admin_category_model = new CategoryModel($this->admin_category_table_helper);
-
         $this->admin_tag_table_helper = new DatabaseTable(
             TagEntity::TABLE,
             TagEntity::PRIMARY_KEY,
             TagEntity::CLASS_NAME
         );
-        $this->admin_tag_model = new TagModel($this->admin_tag_table_helper);
-
         $this->admin_media_table_helper = new DatabaseTable(
             MediaEntity::TABLE,
             MediaEntity::PRIMARY_KEY,
             MediaEntity::CLASS_NAME
         );
-        $this->admin_media_model = new MediaModel($this->admin_media_table_helper);
-
         $this->admin_post_category_table_helper = new DatabaseTable(
             PostCategoryEntity::TABLE,
             PostCategoryEntity::PRIMARY_KEY,
             PostCategoryEntity::CLASS_NAME
         );
-        $this->admin_post_category_model = new PostCategoryModel($this->admin_post_category_table_helper, $this->admin_category_table_helper);
-
         $this->admin_post_tag_table_helper = new DatabaseTable(
             PostTagEntity::TABLE,
             PostTagEntity::PRIMARY_KEY,
             PostTagEntity::CLASS_NAME
         );
-        $this->admin_post_tag_model = new PostTagModel($this->admin_post_tag_table_helper, $this->admin_tag_table_helper);
-        
         $this->admin_user_table_helper = new DatabaseTable(
             UserEntity::TABLE,
             UserEntity::PRIMARY_KEY,
             UserEntity::CLASS_NAME
         );
-        $this->admin_user_model = new UserModel($this->admin_user_table_helper);
-        
         $this->admin_comment_table_helper = new DatabaseTable(
             PostComment::TABLE,
             PostComment::PRIMARY_KEY,
             PostComment::CLASS_NAME
         );
-        $this->admin_comment_model = new CommentModel($this->admin_comment_table_helper);
-        
         $this->admin_post_table_helper = new DatabaseTable(
             PostEntity::TABLE,
             PostEntity::PRIMARY_KEY,
@@ -128,9 +114,20 @@ class NTHBRoutesHandler implements IRoutes
                 &$this->admin_comment_model
             ]
         );
-        $this->admin_post_model = new PostModel($this->admin_post_table_helper);
-
-
+        
+        $this->admin_post_category_model = new PostCategoryModel(
+            $this->admin_post_category_table_helper,
+            $this->admin_category_table_helper,
+            $this->admin_post_table_helper
+        );
+        $this->admin_category_model = new CategoryModel($this->admin_category_table_helper);
+        $this->admin_tag_model = new TagModel($this->admin_tag_table_helper);
+        $this->admin_media_model = new MediaModel($this->admin_media_table_helper);
+        $this->admin_post_tag_model = new PostTagModel($this->admin_post_tag_table_helper, $this->admin_tag_table_helper);
+        $this->admin_user_model = new UserModel($this->admin_user_table_helper);
+        $this->admin_comment_model = new CommentModel($this->admin_comment_table_helper);
+        $this->admin_post_model = new PostModel($this->admin_post_table_helper, $this->admin_post_category_model, $this->admin_category_model);
+        
         $this->authentication_helper = new Authentication(
             $this->admin_user_table_helper, 
             UserEntity::KEY_EMAIL, 
@@ -326,7 +323,7 @@ class NTHBRoutesHandler implements IRoutes
     public function get_client_routes(): array
     {
         $home_controller = new HomeController($this->admin_post_model);
-        $blog_controller = new BlogController($this->admin_post_model);
+        $blog_controller = new BlogController($this->admin_post_model, $this->admin_category_model);
         $about_controller = new AboutController();
         $contact_controller = new ContactController();
 
