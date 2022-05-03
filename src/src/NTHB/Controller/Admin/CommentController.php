@@ -31,10 +31,11 @@ class CommentController extends NTHBBaseController
     public function accept_comment()
     {
         $id = $_GET['id'] ?? null;
+        $redirect_url = $_GET['redirect_url'] ?? '/admin/comment';
 
         try {
             $this->comment_model->accept_comment($id);
-            $this->route_redirect('/admin/comment');
+            $this->route_redirect($redirect_url);
         } catch (Exception $e) {
             die($e);
         }
@@ -43,10 +44,11 @@ class CommentController extends NTHBBaseController
     public function deny_comment()
     {
         $id = $_GET['id'] ?? null;
+        $redirect_url = $_GET['redirect_url'] ?? '/admin/comment';
 
         try {
             $this->comment_model->deny_comment($id);
-            $this->route_redirect('/admin/comment');
+            $this->route_redirect($redirect_url);
         } catch (Exception $e) {
             die($e);
         }
