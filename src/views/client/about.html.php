@@ -1,7 +1,7 @@
 {% extends client/master.html.php %}
 
 <main class="mb-4">
-    {% block content %}
+    {% block inner_content %}
     <div class="row gx-4 gx-lg-5 justify-content-center">
         <div class="col-md-10 col-lg-8 col-xl-7">
             <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Saepe nostrum ullam eveniet pariatur voluptates

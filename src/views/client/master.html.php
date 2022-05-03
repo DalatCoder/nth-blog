@@ -15,6 +15,8 @@
     <link href="/static/sblog/font/open-sans.css" rel="stylesheet" type="text/css" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="/static/sblog/css/styles.css" rel="stylesheet" />
+    
+    {% yield custom_styles %}
 </head>
 <body>
 <!-- Navigation-->
@@ -50,11 +52,13 @@
 
 <!-- Main Content-->
 <div class="container px-4 px-lg-5">
-    {% yield content %}
+    {% yield inner_content %}
 </div>
 
+{% yield outer_content %}
+
 <!-- Footer-->
-<footer class="border-top">
+<footer class="border-top mt-5">
     <div class="container px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
