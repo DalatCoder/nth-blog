@@ -72,6 +72,24 @@ class PostModel
         return $results[0];
     }
 
+    public function get_by_author_id($author_id, $orderBy = null, $orderDirection = null, $limit = null, $offset = null)
+    {
+        return $this->post_table_helper->find(PostEntity::KEY_AUTHOR_ID, $author_id);
+    }
+
+    public function get_published_by_author_id($author_id, $orderBy = null, $orderDirection = null, $limit = null, $offset = null): array
+    {
+        $posts = $this->post_table_helper->find(PostEntity::KEY_AUTHOR_ID, $author_id);
+        $filtered = [];
+
+        foreach ($posts as $post) {
+            if (!is_null($post->{PostEntity::KEY_PUBLISHED_AT}))
+                $filtered[] = $post;
+        }
+        
+        return $filtered;
+    }
+    
     public function count()
     {
         return $this->post_table_helper->total();

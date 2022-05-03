@@ -12,7 +12,7 @@
                 </a>
                 <p class="post-meta">
                     Đăng bởi
-                    <a href="#"><?= $post->get_author()->get_fullname() ?></a>
+                    <a href="/blog?author-id=<?= $post->get_author()->id ?>"><?= $post->get_author()->get_fullname() ?></a>
                     vào ngày <?= $post->get_published_date()->format('d-m-Y') ?>
                     lúc <?= $post->get_published_date()->format('H:i:s') ?>
                 </p>
