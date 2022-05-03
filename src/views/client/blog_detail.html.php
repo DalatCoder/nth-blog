@@ -61,8 +61,77 @@
 </article>
 
 {% block outer_content %}
-<div class="container px-4 px-lg-5" id="comment-section">
-    <div class="row justify-content-center">
+<div class="container px-4 px-lg-5">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-8">
+            <hr>
+            <div class="media g-mb-30 media-comment mt-5">
+                <div class="media-body u-shadow-v18 g-bg-secondary g-pa-30">
+                    <div class="mb-3">
+                        <h5 class="h5 g-color-gray-dark-v1 mb-0">Chia sẻ cảm nghĩ của bạn về bài viết...</h5>
+                    </div>
+
+                    <form action="/comment/create" method="POST" class="">
+                        <input type="hidden" name="post_id" value="<?= $post->id ?>">
+                        <input type="hidden" name="parent_id" value="0">
+                        <input type="hidden" name="slug" value="<?= $post->slug ?>">
+                        <?php if ($login_user instanceof \NTHB\Entity\UserEntity): ?>
+                            <input type="hidden" name="author_id" value="<?= $login_user->id ?>">
+                        <?php endif; ?>
+
+                        <div class="row g-3 my-4">
+                            <div class="col-lg-6">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control form-control-sm" id="first_name"
+                                           placeholder="Tên"
+                                           value="<?= $login_user instanceof \NTHB\Entity\UserEntity ? $login_user->first_name : '' ?>"
+                                           required
+                                           name="first_name"
+                                           autocomplete="off"
+                                    >
+                                    <label for="first_name">Tên *</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <div class="form-floating mb-3">
+                                    <input type="text" class="form-control" id="last_name"
+                                           placeholder="Họ đệm"
+                                           value="<?= $login_user instanceof \NTHB\Entity\UserEntity ? $login_user->last_name : '' ?>"
+                                           name="last_name"
+                                           autocomplete="off"
+                                    >
+                                    <label for="last_name">Họ đệm</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating mb-3">
+                                    <input type="email" class="form-control" id="email"
+                                           placeholder="email"
+                                           value="<?= $login_user instanceof \NTHB\Entity\UserEntity ? $login_user->email : '' ?>"
+                                           required
+                                           name="email"
+                                           autocomplete="off"
+                                    >
+                                    <label for="email">Email *</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="form-floating">
+                                    <textarea name="content" class="form-control" placeholder="Nhập cảm nghĩ của bạn"
+                                              id="content" style="height: 120px"></textarea>
+                                    <label for="content">Nội dung *</label>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <input type="submit" value="Gửi nhận xét" class="btn btn-primary">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center" id="comment-section">
         <?php foreach ($post->fetch_comments() as $comment): ?>
             <?php if ($comment->is_accepted() || $is_login): ?>
                 <div class="col-md-8">
