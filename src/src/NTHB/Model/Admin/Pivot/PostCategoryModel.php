@@ -6,16 +6,19 @@ use Exception;
 use Ninja\DatabaseTable;
 use NTHB\Entity\CategoryEntity;
 use NTHB\Entity\Pivot\PostCategoryEntity;
+use NTHB\Entity\PostEntity;
 
 class PostCategoryModel
 {
     private DatabaseTable $post_category_table_helper;
     private DatabaseTable $category_table_helper;
+    private DatabaseTable $post_table_helper;
     
-    public function __construct(DatabaseTable $post_category_table_helper, DatabaseTable $category_table_helper)
+    public function __construct(DatabaseTable $post_category_table_helper, DatabaseTable $category_table_helper, DatabaseTable $post_table_helper)
     {
         $this->post_category_table_helper = $post_category_table_helper;
         $this->category_table_helper = $category_table_helper;
+        $this->post_table_helper = $post_table_helper;
     }
 
     public function get_by_post_id($post_id, $orderBy = null, $orderDirection = null, $limit = null, $offset = null)
@@ -47,6 +50,21 @@ class PostCategoryModel
     }
 
     public function get_by_category_id($category_id, $orderBy = null, $orderDirection = null, $limit = null, $offset = null)
+    {
+        $pairs = $this->get_by_category_id_raw($category_id, $orderBy, $orderDirection, $limit, $offset);
+        $post_ids = [];
+
+        foreach ($pairs as $item) {
+            $post_ids[] = intval($item->{PostCategoryEntity::KEY_POST_ID});
+        }
+
+        return $this->post_table_helper->findIdIn(
+            PostEntity::KEY_ID,
+            $post_ids,
+        );
+    }
+
+    public function get_by_category_id_raw($category_id, $orderBy = null, $orderDirection = null, $limit = null, $offset = null)
     {
         return $this->post_category_table_helper->find(
             PostCategoryEntity::KEY_CATEGORY_ID,
