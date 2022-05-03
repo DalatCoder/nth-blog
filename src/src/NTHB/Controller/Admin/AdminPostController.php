@@ -3,6 +3,7 @@
 namespace NTHB\Controller\Admin;
 
 use Exception;
+use Ninja\Authentication;
 use Ninja\NinjaException;
 use NTHB\Controller\NTHBBaseController;
 use NTHB\Entity\PostEntity;
@@ -17,8 +18,9 @@ class AdminPostController extends NTHBBaseController
     private CategoryModel $category_model;
     private TagModel $tag_model;
     private MediaModel $media_model;
+    private Authentication $authentication_helper;
     
-    public function __construct(PostModel $post_model, CategoryModel $category_model, TagModel $tag_model, MediaModel $media_model)
+    public function __construct(PostModel $post_model, CategoryModel $category_model, TagModel $tag_model, MediaModel $media_model, Authentication $authentication_helper)
     {
         parent::__construct();
         
@@ -26,6 +28,7 @@ class AdminPostController extends NTHBBaseController
         $this->category_model = $category_model;
         $this->tag_model = $tag_model;
         $this->media_model = $media_model;
+        $this->authentication_helper = $authentication_helper;
     }
     
     public function index()
@@ -56,7 +59,7 @@ class AdminPostController extends NTHBBaseController
     public function store()
     {
         try {
-            $author_id = 1;
+            $author_id = $this->authentication_helper->getUserId();
             $parent_id = $_POST['parent-id'] ?? 0;
             $title = $_POST['title'] ?? '';
             $meta_title = $_POST['meta-title'] ?? '';
@@ -120,5 +123,53 @@ class AdminPostController extends NTHBBaseController
             'posts' => $posts,
             'post' => $post
         ]);
+    }
+    
+    public function update()
+    {
+        try {
+            $post_id = $_POST['post_id'] ?? null;
+            if (empty($post_id))
+                throw new NinjaException('Mã bài viết không hợp lệ');
+            
+            $post = $this->post_model->get_by_id($post_id);
+            if (!$post instanceof PostEntity)
+                throw new NinjaException('Không tìm thấy bài viết');
+            
+            $post->{PostEntity::KEY_PARENT_ID} = $_POST['parent-id'] ?? 0;
+            $post->{PostEntity::KEY_TITLE} = $_POST['title'] ?? '';
+            $post->{PostEntity::KEY_META_TITLE} = $_POST['meta-title'] ?? '';
+            $post->{PostEntity::KEY_SUMMARY} = $_POST['summary'] ?? '';
+            $post->{PostEntity::KEY_CONTENT} = $_POST['content'] ?? '';
+            $post->{PostEntity::KEY_COVER_IMAGE_ID} = $_POST['cover_image'] ?? null;
+            
+            if (isset($_POST['save_draft']) && $_POST['save_draft'] == 'save_draft') {
+                $post->{PostEntity::KEY_PUBLISHED_AT} = null;
+            }
+            
+            $updated_post = $this->post_model->update($post_id, $post);
+
+            if (!($updated_post instanceof PostEntity)) {
+                throw new NinjaException('Có lỗi trong quá trình cập nhật bài viết, thử lại sau');
+            }
+
+            $categories = $_POST['categories'] ?? [];
+            $tags = $_POST['tags'] ?? [];
+            
+            $already_categories = $updated_post->fetch_categories();
+            $already_tags = $updated_post->fetch_tags();
+            
+            // TODO: sync categories
+            // TODO: sync tags
+
+            $this->route_redirect('/admin/post');
+        }
+        catch (NinjaException $exception) {
+            die(print_r($exception, true));
+        }
+        catch (Exception $exception) {
+            error_log(print_r($exception, true));
+            die(print_r($exception, true));
+        }   
     }
 }

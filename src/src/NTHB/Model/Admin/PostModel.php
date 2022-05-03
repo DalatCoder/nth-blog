@@ -136,4 +136,48 @@ class PostModel
             PostEntity::KEY_PUBLISHED_AT => $published_at
         ]);
     }
+
+    /**
+     * @throws Exception
+     */
+    public function update($post_id, PostEntity $updated_post)
+    {
+        $slug = NJStringUtils::slugify($updated_post->{PostEntity::KEY_TITLE});
+        if ($slug != $updated_post->{PostEntity::KEY_SLUG}) {
+            $unique_id = '';
+
+            while (true) {
+                if (empty($unique_id)) {
+                    $unique_slug = NJStringUtils::slugify($updated_post->{PostEntity::KEY_TITLE});
+                }
+                else {
+                    $unique_slug = NJStringUtils::slugify($updated_post->{PostEntity::KEY_TITLE} . ' ' . $unique_id);
+                }
+
+                $results = $this->post_table_helper->find(PostEntity::KEY_SLUG, $unique_slug);
+                if (count($results) == 0)
+                    break;
+                else
+                    $unique_id = uniqid();
+            }
+            
+            $updated_post->{PostEntity::KEY_SLUG} = $unique_slug;
+        }
+        
+        $updated_post->{PostEntity::KEY_UPDATED_AT} = new \DateTime();
+
+        return $this->post_table_helper->save([
+            PostEntity::KEY_ID => $post_id,
+            PostEntity::KEY_SLUG => $updated_post->{PostEntity::KEY_SLUG},
+            PostEntity::KEY_TITLE => $updated_post->{PostEntity::KEY_TITLE},
+            PostEntity::KEY_META_TITLE => $updated_post->{PostEntity::KEY_META_TITLE},
+            PostEntity::KEY_SUMMARY => $updated_post->{PostEntity::KEY_SUMMARY},
+            PostEntity::KEY_CONTENT => $updated_post->{PostEntity::KEY_CONTENT},
+            PostEntity::KEY_PARENT_ID => $updated_post->{PostEntity::KEY_PARENT_ID},
+            PostEntity::KEY_AUTHOR_ID => $updated_post->{PostEntity::KEY_AUTHOR_ID},
+            PostEntity::KEY_COVER_IMAGE_ID => $updated_post->{PostEntity::KEY_COVER_IMAGE_ID},
+            PostEntity::KEY_PUBLISHED_AT => $updated_post->{PostEntity::KEY_PUBLISHED_AT},
+            PostEntity::KEY_UPDATED_AT => $updated_post->{PostEntity::KEY_UPDATED_AT}
+        ], true);
+    }
 }

@@ -43,6 +43,7 @@
         <div class="col-12 mb-3 d-flex justify-content-end">
             <form action="" method="POST" id="post-form">
                 <input type="hidden" name="cover_image" id="cover_image" value="<?= $post->{\NTHB\Entity\PostEntity::KEY_COVER_IMAGE_ID} ?>">
+                <input type="hidden" name="post_id" value="<?= $post->{\NTHB\Entity\PostEntity::KEY_ID} ?>">
                 <button type="submit" name="save_draft" class="btn btn-secondary mr-4" value="save_draft">Lưu nháp</button>
                 <button type="submit" name="update" class="btn btn-primary" value="update">Cập nhật</button>
             </form>
