@@ -23,4 +23,9 @@ class UserEntity
     {
         return \DateTime::createFromFormat('Y-m-d H:i:s', $this->{self::KEY_CREATED_AT});
     }
+    
+    public function get_fullname(): string
+    {
+        return $this->{self::KEY_LAST_NAME} . ' ' . $this->{self::KEY_FIRST_NAME};
+    }
 }

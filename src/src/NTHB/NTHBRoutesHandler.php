@@ -325,7 +325,7 @@ class NTHBRoutesHandler implements IRoutes
 
     public function get_client_routes(): array
     {
-        $home_controller = new HomeController();
+        $home_controller = new HomeController($this->admin_post_model);
         $blog_controller = new BlogController($this->admin_post_model);
         $about_controller = new AboutController();
         $contact_controller = new ContactController();
