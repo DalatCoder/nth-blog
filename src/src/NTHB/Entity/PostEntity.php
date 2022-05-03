@@ -123,4 +123,24 @@ class PostEntity
         
         return $this->author;
     }
+    
+    public function belong_to_category($category_id): bool
+    {
+        $this->fetch_categories();
+        foreach ($this->categories as $category)
+            if ($category->id == $category_id)
+                return true;
+        
+        return false;
+    }
+
+    public function belong_to_tag($tag_id): bool
+    {
+        $this->fetch_tags();
+        foreach ($this->tags as $tag)
+            if ($tag->id == $tag_id)
+                return true;
+
+        return false;
+    }
 }

@@ -71,6 +71,11 @@ class PostModel
         
         return $results[0];
     }
+    
+    public function get_by_id($id)
+    {
+        return $this->post_table_helper->findById($id);
+    }
 
     public function get_by_author_id($author_id, $orderBy = null, $orderDirection = null, $limit = null, $offset = null)
     {

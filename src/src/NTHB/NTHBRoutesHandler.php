@@ -239,6 +239,12 @@ class NTHBRoutesHandler implements IRoutes
                     'controller' => $controller,
                     'action' => 'store'
                 ]
+            ],
+            '/admin/post/edit' => [
+                'GET' => [
+                    'controller' => $controller,
+                    'action' => 'edit'
+                ]
             ]
         ];
     }

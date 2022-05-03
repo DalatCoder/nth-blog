@@ -45,6 +45,7 @@ class AdminPostController extends NTHBBaseController
         $posts = $this->post_model->get_all();
         
         $this->view_handler->render('admin/post/create.html.php', [
+            'page_title' => 'Thêm bài viết mới',
             'categories' => $categories,
             'tags' => $tags,
             'medias' => $medias,
@@ -94,5 +95,30 @@ class AdminPostController extends NTHBBaseController
             error_log(print_r($exception, true));
             die(print_r($exception, true));
         }
+    }
+    
+    public function edit()
+    {
+        $id = $_GET['id'] ?? null;
+        if (is_null($id))
+            $this->route_redirect('/admin/post');
+        
+        $post = $this->post_model->get_by_id($id);
+        if (!$post instanceof PostEntity)
+            $this->route_redirect('/admin/post');
+        
+        $categories = $this->category_model->get_all();
+        $tags = $this->tag_model->get_all();
+        $medias = $this->media_model->get_all();
+        $posts = $this->post_model->get_all();
+        
+        $this->view_handler->render('admin/post/edit.html.php', [
+            'page_title' => 'Cập nhật bài viết',
+            'categories' => $categories,
+            'tags' => $tags,
+            'medias' => $medias,
+            'posts' => $posts,
+            'post' => $post
+        ]);
     }
 }
