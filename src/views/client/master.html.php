@@ -29,6 +29,14 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ms-auto py-4 py-lg-0">
+                <?php if ($login_user instanceof \NTHB\Entity\UserEntity): ?>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/admin/dashboard">Admin</a></li>
+                <?php endif; ?>
+
+                <?php if (isset($post) && $post instanceof \NTHB\Entity\PostEntity): ?>
+                    <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/admin/post/edit?id=<?= $post->id ?>">Sửa bài viết</a></li>
+                <?php endif; ?>
+                
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/">Trang chú</a></li>
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/about">Giới thiệu</a></li>
                 <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="/contact">Liên hệ</a></li>
