@@ -40,8 +40,8 @@
         <div class="row gx-4 gx-lg-5 justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
                 <div class="site-heading">
-                    <h1><?= $website_name ?></h1>
-                    <span class="subheading">Nguyễn Trọng Hiếu</span>
+                    <h1><?= empty($page_title) ? $website_name : $page_title ?></h1>
+                    <span class="subheading"><?= empty($page_sub_title) ? '' : $page_sub_title ?></span>
                 </div>
             </div>
         </div>
@@ -93,5 +93,7 @@
 <script src="/static/sblog/vendor/bootstrap/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
 <script src="/static/sblog/js/scripts.js"></script>
+
+{% yield custom_scripts %}
 </body>
 </html>
