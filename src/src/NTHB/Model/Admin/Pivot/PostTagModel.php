@@ -28,7 +28,7 @@ class PostTagModel
             $tag_ids[] = $item->{PostTagEntity::KEY_TAG_ID};
         }
 
-        return $this->tag_table_helper->findIn(
+        return $this->tag_table_helper->findIdIn(
             TagEntity::KEY_ID,
             $tag_ids
         );

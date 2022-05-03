@@ -24,12 +24,12 @@ class PostCategoryModel
         $category_ids = [];
         
         foreach ($pairs as $item) {
-            $category_ids[] = $item->{PostCategoryEntity::KEY_CATEGORY_ID};
+            $category_ids[] = intval($item->{PostCategoryEntity::KEY_CATEGORY_ID});
         }
 
-        return $this->category_table_helper->findIn(
+        return $this->category_table_helper->findIdIn(
             CategoryEntity::KEY_ID,
-            $category_ids
+            $category_ids,
         );
     }
 
