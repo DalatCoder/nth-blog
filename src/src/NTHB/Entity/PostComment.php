@@ -27,4 +27,9 @@ class PostComment
     {
         return \DateTime::createFromFormat('Y-m-d H:i:s', $this->{self::KEY_CREATED_AT});
     }
+    
+    public function is_accepted(): bool
+    {
+        return !is_null($this->{self::KEY_PUBLISHED_AT});
+    }
 }
