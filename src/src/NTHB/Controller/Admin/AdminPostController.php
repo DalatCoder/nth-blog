@@ -148,7 +148,8 @@ class AdminPostController extends NTHBBaseController
             }
             
             if (isset($_POST['update']) && $_POST['update'] == 'update') {
-                $post->{PostEntity::KEY_PUBLISHED_AT} = new \DateTime();
+                if (is_null($post->{PostEntity::KEY_PUBLISHED_AT}))
+                    $post->{PostEntity::KEY_PUBLISHED_AT} = new \DateTime();
             }
             
             $updated_post = $this->post_model->update($post_id, $post);
